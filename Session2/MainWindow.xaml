@@ -29,9 +29,10 @@
                 </TextBox.Resources>
             </TextBox>
         </Grid>
-        <Canvas Grid.Row="1" Grid.Column="0" Margin="20 25 10 25" Background="LightGray"/>
-
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10 25 20 25" Background="LightGray">
+        <Canvas x:Name="MainCanvas" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible"  
+                    Background="LightGray" Grid.Row="1" Grid.Column="0" Margin="20 25 10 25"/>
+  
+            <Grid Grid.Row="1" Grid.Column="1" Margin="10 25 20 25" Background="LightGray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80*"/>
                 <RowDefinition Height="20*"/>

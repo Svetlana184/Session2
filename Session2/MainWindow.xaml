@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="9*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" Source="Logo.png"/>
+            <Image Grid.Column="0" Source="Logo.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <TextBox Grid.Column="1" Margin="10 25 20 25" BorderThickness="0" Text="    Организационная структура" FontSize="20">
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -29,20 +29,24 @@
                 </TextBox.Resources>
             </TextBox>
         </Grid>
-        <Canvas x:Name="MainCanvas" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible"  
-                    Background="LightGray" Grid.Row="1" Grid.Column="0" Margin="20 25 10 25"/>
+        <ScrollViewer Grid.Row="1" >
+            <Canvas x:Name="MainCanvas" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible"  
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    Background="LightGray" Grid.Row="1" Grid.Column="0" Margin="20 25 10 10">
 
+            </Canvas>
+        </ScrollViewer>
         <Grid Grid.Row="1" Grid.Column="1" Margin="10 25 20 25" Background="LightGray">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80*"/>
                 <RowDefinition Height="20*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" Grid.Row="0"/>
-            <Button Grid.Row="1" Grid.Column ="1"  HorizontalAlignment="Center" Content="+" Margin="0,7,0,7" Background="#78B24B" BorderThickness="0" Width="54"/>
+            <Button Grid.Row="1" Grid.Column ="1"  HorizontalAlignment="Stretch" Content="+" Margin="25 20" Background="#78B24B" BorderThickness="0" />
         </Grid>
     </Grid>
 </Window>

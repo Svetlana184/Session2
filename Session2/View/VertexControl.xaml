@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Session2.View"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="150" Background="#78B24B">
+             d:DesignHeight="50" d:DesignWidth="150" Background="#78B24B" MouseDoubleClick="UserControl_MouseDoubleClick">
     <Grid>
-        <Label Content="Дороги России" VerticalAlignment="Center"
-               HorizontalAlignment="Center" Width="50" Height="150"/>
+        <TextBlock VerticalAlignment="Center"
+               HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+
     </Grid>
 </UserControl>

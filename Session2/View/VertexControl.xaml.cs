@@ -22,9 +22,9 @@ namespace Session2.View
     {
         public int Department { get; set; }
         public string? NameDepartment { get; set; }
-        public int ParentDepartment { get; set; }
+        public int? ParentDepartment { get; set; }
         public int Level { get; set; }
-        public VertexControl(int department, string? name, int parentDepartment)
+        public VertexControl(int department, string? name, int? parentDepartment)
         {
             InitializeComponent();
             Department = department;
@@ -32,9 +32,14 @@ namespace Session2.View
             ParentDepartment = parentDepartment;
             Content = name;
             Height = 50;
-            Width = 150;
+            Width = 200;
             VerticalContentAlignment = VerticalAlignment.Center;
             HorizontalContentAlignment = HorizontalAlignment.Center;
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var x = 0;
         }
     }
 }

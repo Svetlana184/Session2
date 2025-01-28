@@ -16,7 +16,7 @@ namespace Session2.Model
     internal class Graph
     {
         private VertexControl v;
-        private List<VertexControl> vertices;
+        public List<VertexControl> vertices { get; set; }
 
         public Graph(VertexControl _v)
         {
@@ -31,7 +31,7 @@ namespace Session2.Model
         {
             for (int i = 0; i < vertices.Count; i++)
             {
-                if (vertices[i].ParentDepartment == 1)
+                if (vertices[i].ParentDepartment==987)
                     vertices[i].Level = 2;
             }
             int maxLevel = 2;
@@ -42,7 +42,8 @@ namespace Session2.Model
                     if (vertices[i].Department == vertices[j].ParentDepartment)
                     {
                         vertices[j].Level = vertices[i].Level+1;
-                        maxLevel = vertices[j].Level;
+                        if (vertices[j].Level>maxLevel) maxLevel = vertices[j].Level;
+
                     }
                 }
             }
@@ -60,7 +61,7 @@ namespace Session2.Model
                         Canvas.SetLeft(vertices[j], x);
                         Canvas.SetTop(vertices[j], y);
                         canvas.Children.Add(vertices[j]);
-                        x += 200;
+                        x += 250;
                     }
                 }
             }

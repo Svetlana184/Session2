@@ -28,10 +28,6 @@ namespace Session2
             VertexControl vertexRoot = new VertexControl(987, "Дороги России", 0,this);
             vertexRoot.Level = 1;
             Graph = new Graph(vertexRoot);
-            //VertexControl v1 = new VertexControl(2, "Отдел 1", 987);
-            //graph.AddVertex(v1);
-            //VertexControl v2 = new VertexControl(3, "Отдел 2", 2);
-            //graph.AddVertex(v2);
             List<Department> departmentList = db.Departments.Where(p => p.IdDepartment != 987).ToList();
             foreach (Department department in departmentList)
             {

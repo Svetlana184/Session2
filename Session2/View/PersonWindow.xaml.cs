@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Session2.Model;
 
 namespace Session2.View
 {
@@ -19,9 +20,11 @@ namespace Session2.View
     /// </summary>
     public partial class PersonWindow : Window
     {
+        private RoadOfRussiaContext db;
         public PersonWindow()
         {
             InitializeComponent();
+
         }
     }
 }

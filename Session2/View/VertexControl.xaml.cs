@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Session2.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,9 @@ namespace Session2.View
         public string? NameDepartment { get; set; }
         public int? ParentDepartment { get; set; }
         public int Level { get; set; }
-        public VertexControl(int department, string? name, int? parentDepartment)
+        public MainWindow ParentWindow { get; set; }
+        private RoadOfRussiaContext db;
+        public VertexControl(int department, string? name, int? parentDepartment,MainWindow parentWindow)
         {
             InitializeComponent();
             Department = department;
@@ -35,11 +38,20 @@ namespace Session2.View
             Width = 200;
             VerticalContentAlignment = VerticalAlignment.Center;
             HorizontalContentAlignment = HorizontalAlignment.Center;
+            ParentWindow = parentWindow;
+            db = new RoadOfRussiaContext();
         }
 
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var x = 0;
+            var list = from emp in db.Employees
+                       where emp.IdDepartment == Department
+                       select new
+                       {
+                           DepAndPosition=db.Departments.FirstOrDefault(p=>p.IdDepartment==Department)!.DepartmentName+" - "+
+                           db.Employees.FirstOrDefault(p=>p.IdDepartment==Department)!.Position
+                       };
+            ParentWindow.EmployerList.ItemsSource = list;
         }
     }
 }

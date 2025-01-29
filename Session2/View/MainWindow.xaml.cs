@@ -25,7 +25,7 @@ namespace Session2
         {
             InitializeComponent();
             db=new RoadOfRussiaContext();
-            VertexControl vertexRoot = new VertexControl(987, "Дороги России", 0);
+            VertexControl vertexRoot = new VertexControl(987, "Дороги России", 0,this);
             vertexRoot.Level = 1;
             graph = new Graph(vertexRoot);
             //VertexControl v1 = new VertexControl(2, "Отдел 1", 987);
@@ -35,7 +35,7 @@ namespace Session2
             List<Department> departmentList = db.Departments.Where(p => p.IdDepartment != 987).ToList();
             foreach (Department department in departmentList)
             {
-                VertexControl v = new VertexControl(department.IdDepartment, department.DepartmentName, department.IdDepartmentParent);
+                VertexControl v = new VertexControl(department.IdDepartment, department.DepartmentName, department.IdDepartmentParent,this);
                 graph.AddVertex(v);
             }
             graph.DrawGraph(MainCanvas);

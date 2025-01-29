@@ -45,11 +45,11 @@
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <ListBox Grid.Row="0" Grid.ColumnSpan="2">
+            <ListBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="EmployerList">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="360" Background="#78B24B">
-                            <Label Content="{Binding Department}"/>
+                            <Label Content="{Binding DepAndPosition}"/>
                             <Label Content="{Binding Position}"/>
                             <Label Content="{Binding FirstName}"/>
                             <Label Content="{Binding SurName}"/>

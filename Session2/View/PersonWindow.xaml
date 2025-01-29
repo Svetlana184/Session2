@@ -16,56 +16,58 @@
             <RowDefinition Height="9*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        <Button Content="Перейти в режим редактирования" Width="50" HorizontalAlignment="Right" Height="30" Margin="5"/>
+        <Button Content="Уволить" Width="50" HorizontalAlignment="Left" Height="30" Margin="5"/>
         <ListBox Grid.Column="0" Grid.Row="1" x:Name="PersonList" Width="400" Height="400">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <TextBox Text="{Binding Fio}"/>
-                            <TextBox Text="{Binding Phone}"/>
-                            <TextBox Text="{Binding BirthDay}"/>
-                            <TextBox Text="{Binding Department}"/>
-                            <TextBox Text="{Binding Position}"/>
-                            <TextBox Text="{Binding Boss}"/>
-                            <TextBox Text="{Binding Helper}"/>
-                            <TextBox Text="{Binding PhoneWork}"/>
-                            <TextBox Text="{Binding Email}"/>
-                            <TextBox Text="{Binding Cabinet}"/>
-                            <TextBox Text="{Binding Other}"/>
-                        </StackPanel>
-                    </DataTemplate>
+                    <StackPanel>
+                        <TextBox Text="{Binding Fio}"/>
+                        <TextBox Text="{Binding Phone}"/>
+                        <TextBox Text="{Binding BirthDay}"/>
+                        <TextBox Text="{Binding Department}"/>
+                        <TextBox Text="{Binding Position}"/>
+                        <TextBox Text="{Binding Boss}"/>
+                        <TextBox Text="{Binding Helper}"/>
+                        <TextBox Text="{Binding PhoneWork}"/>
+                        <TextBox Text="{Binding Email}"/>
+                        <TextBox Text="{Binding Cabinet}"/>
+                        <TextBox Text="{Binding Other}"/>
+                    </StackPanel>
+                </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="100" HorizontalAlignment="Right" Margin="5"/>
+        <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="100" HorizontalAlignment="Right" Margin="5" Background="Green"/>
         <Button  Grid.Row="2" Grid.Column="0" Content="Отмена" Width="100" HorizontalAlignment="Left" Margin="5"/>
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Прошедшие" Width="100" Background="Green" Margin="10 10 10 0"/>
+            <Button Content="Прошедшие" Width="100" Background="Green" Margin="30 10 10 0"/>
             <Button Content="Текущие" Width="100" Background="Green" Margin="10 10 10 0"/>
             <Button Content="Будущие" Width="100" Background="Green" Margin="10 10 10 0"/>
         </StackPanel>
         <ListView  Grid.Column="1" Grid.Row="1" x:Name="Past">
             <Label Content="Обучения"/>
-            <TextBox Text="{Binding LearningPast}"/>
-            <TextBox Text="{Binding LearningPast}"/>
+            <TextBox Text="{Binding LearningPast}" Width="350" Background="LightGray"/>
+            <TextBox Text="{Binding LearningPast}" Width="350" Background="LightGray"/>
             <Label Content="Отгулы"/>
-            <TextBox Text="{Binding SkipDayPast}"/>
+            <TextBox Text="{Binding SkipDayPast}" Width="350" Background="LightGray"/>
             <Label Content="Отпуска"/>
             <TextBox Text="{Binding VacationPast}"/>
         </ListView>
         <ListView  Grid.Column="1"  Grid.Row="1" x:Name="Present">
             <Label Content="Обучения"/>
-            <TextBox Text="{Binding LearningPresent}"/>
-            <TextBox Text="{Binding LearningPresent}"/>
+            <TextBox Text="{Binding LearningPresent}" Width="350" Background="LightGray"/>
+            <TextBox Text="{Binding LearningPresent}" Width="350" Background="LightGray"/>
             <Label Content="Отгулы"/>
-            <TextBox Text="{Binding SkipDayPresent}"/>
+            <TextBox Text="{Binding SkipDayPresent}" Width="350" Background="LightGray"/>
             <Label Content="Отпуска"/>
             <TextBox Text="{Binding VacationFuture}"/>
         </ListView>
         <ListView  Grid.Column="1"  Grid.Row="1" x:Name="Future">
             <Label Content="Обучения"/>
-            <TextBox Text="{Binding LearningFuture}"/>
-            <TextBox Text="{Binding LearningFuture}"/>
+            <TextBox Text="{Binding LearningFuture}" Width="350" Background="LightGray"/>
+            <TextBox Text="{Binding LearningFuture}" Width="350" Background="LightGray"/>
             <Label Content="Отгулы"/>
-            <TextBox Text="{Binding SkipDayPresent}"/>
+            <TextBox Text="{Binding SkipDayPresent}" Width="350" Background="LightGray"/>
             <Label Content="Отпуска"/>
             <TextBox Text="{Binding VacationFuture}"/>
         </ListView>

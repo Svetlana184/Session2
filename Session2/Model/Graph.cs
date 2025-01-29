@@ -13,9 +13,9 @@ namespace Session2.Model
         public int X { get; set; }
         public int Y { get; set; }
     }
-    internal class Graph
+    public class Graph
     {
-        private VertexControl v;
+        public VertexControl v { get; }
         public List<VertexControl> vertices { get; set; }
 
         public Graph(VertexControl _v)

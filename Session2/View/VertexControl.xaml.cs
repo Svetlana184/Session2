@@ -1,6 +1,8 @@
 ﻿using Session2.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +28,8 @@ namespace Session2.View
         public int? ParentDepartment { get; set; }
         public int Level { get; set; }
         public MainWindow ParentWindow { get; set; }
+
+
         private RoadOfRussiaContext db;
         public VertexControl(int department, string? name, int? parentDepartment,MainWindow parentWindow)
         {
@@ -42,22 +46,72 @@ namespace Session2.View
             db = new RoadOfRussiaContext();
         }
 
-        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void UserControl_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            var list = from emp in db.Employees
-                       where emp.IdDepartment == Department
-                       select new
-                       {
-                           DepAndPosition=db.Departments.FirstOrDefault(p=>p.IdDepartment==Department)!.DepartmentName+" - "+
-                           db.Employees.FirstOrDefault(p=>p.IdDepartment==Department)!.Position,
-                           Fio = db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.FirstName + " " +
-                           db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.Surname + " "  + 
-                           db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.SecondName,
-                           Contacts = db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.PhoneWork + "     " +
-                           db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.Email,
-                           Cabinet = db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.Cabinet
-                       };
-            ParentWindow.EmployerList.ItemsSource = list.ToList();
+            ParentWindow.Graph.v.Background= new SolidColorBrush(Colors.LightGreen);
+            foreach (var g in ParentWindow.Graph.vertices)
+            {
+                g.Background = new SolidColorBrush(Colors.LightGreen);
+            }
+            this.Background=new SolidColorBrush(Colors.Green);
+
+            ParentWindow.EmployerList.ItemsSource=null;
+            if (Level == 1)
+            {
+                var list = from emp in db.Employees
+                           select new
+                           {
+                               DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == Department)!.DepartmentName + " - " +
+                               emp.Position,
+                               Fio = emp.FirstName + " " + emp.Surname + " " + emp.SecondName,
+                               Contacts = emp.PhoneWork + " " + emp.Email,
+                               Cabinet = emp.Cabinet
+                           };
+                var s = list.ToList();
+                ParentWindow.EmployerList.ItemsSource = s;
+            }
+            else
+            {
+                var list = (from emp in db.Employees
+                           where emp.IdDepartment == Department
+                           select new
+                           {
+                               DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == Department)!.DepartmentName + " - " +emp.Position,
+                               Fio = emp.FirstName + " " + emp.Surname + " " + emp.SecondName,
+                               Contacts = emp.PhoneWork + " " + emp.Email,
+                               Cabinet = emp.Cabinet
+                           }).ToList();
+                if (list.Count == 0)
+                {
+                    var depList = (from dep in db.Departments
+                                  where dep.IdDepartmentParent == Department
+                                  select new
+                                  {
+                                      IdDep = dep.IdDepartment
+                                  }).ToList();
+                    ArrayList all=new  ArrayList();
+                    for (int i = 0; i < depList.Count; i++)
+                    {
+                        var temp = (from emp in db.Employees
+                                   where emp.IdDepartment == depList[i].IdDep
+                                   select new
+                                   {
+                                       DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == depList[i].IdDep)!.DepartmentName + " - " +emp.Position,
+                                       Fio = emp.FirstName + " " + emp.Surname + " " + emp.SecondName,
+                                       Contacts = emp.PhoneWork + " " + emp.Email,
+                                       Cabinet = emp.Cabinet
+                                   }).ToList();
+                        all.AddRange(temp);
+                    }
+                    ParentWindow.EmployerList.ItemsSource = all;
+                }
+                else
+                {
+                    ParentWindow.EmployerList.ItemsSource = list;
+                }
+            }
+            
+     
 
         }
     }

@@ -19,7 +19,7 @@ namespace Session2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Graph graph;
+        public Graph Graph { get; set; }
         private RoadOfRussiaContext db;
         public MainWindow()
         {
@@ -27,7 +27,7 @@ namespace Session2
             db=new RoadOfRussiaContext();
             VertexControl vertexRoot = new VertexControl(987, "Дороги России", 0,this);
             vertexRoot.Level = 1;
-            graph = new Graph(vertexRoot);
+            Graph = new Graph(vertexRoot);
             //VertexControl v1 = new VertexControl(2, "Отдел 1", 987);
             //graph.AddVertex(v1);
             //VertexControl v2 = new VertexControl(3, "Отдел 2", 2);
@@ -36,9 +36,9 @@ namespace Session2
             foreach (Department department in departmentList)
             {
                 VertexControl v = new VertexControl(department.IdDepartment, department.DepartmentName, department.IdDepartmentParent,this);
-                graph.AddVertex(v);
+                Graph.AddVertex(v);
             }
-            graph.DrawGraph(MainCanvas);
+            Graph.DrawGraph(MainCanvas);
             
         }
     }

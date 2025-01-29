@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Session2.View"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="150" Background="#78B24B" MouseDoubleClick="UserControl_MouseDoubleClick" >
+             d:DesignHeight="50" d:DesignWidth="150" Background="#78B24B" MouseDown="UserControl_MouseDown_1">
     <Grid>
         <TextBlock VerticalAlignment="Center"
-               HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+               HorizontalAlignment="Center" TextWrapping="Wrap" Height="50" Width="150"/>
 
     </Grid>
 </UserControl>

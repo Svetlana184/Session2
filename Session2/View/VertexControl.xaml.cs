@@ -49,9 +49,15 @@ namespace Session2.View
                        select new
                        {
                            DepAndPosition=db.Departments.FirstOrDefault(p=>p.IdDepartment==Department)!.DepartmentName+" - "+
-                           db.Employees.FirstOrDefault(p=>p.IdDepartment==Department)!.Position
+                           db.Employees.FirstOrDefault(p=>p.IdDepartment==Department)!.Position,
+                           Fio = db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.FirstName + " " +
+                           db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.Surname + " "  + 
+                           db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.SecondName,
+                           Contacts = db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.PhoneWork + "     " +
+                           db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.Email,
+                           Cabinet = db.Employees.FirstOrDefault(p => p.IdDepartment == Department)!.Cabinet
                        };
-            ParentWindow.EmployerList.ItemsSource = list;
+            ParentWindow.EmployerList.ItemsSource = list.ToList();
 
         }
     }

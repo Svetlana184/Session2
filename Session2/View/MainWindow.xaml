@@ -48,14 +48,10 @@
             <ListBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="EmployerList">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="360" Background="#78B24B">
+                        <StackPanel Width="900" Background="#78B24B">
                             <Label Content="{Binding DepAndPosition}"/>
-                            <Label Content="{Binding Position}"/>
-                            <Label Content="{Binding FirstName}"/>
-                            <Label Content="{Binding SurName}"/>
-                            <Label Content="{Binding SecondName}"/>
-                            <Label Content="{Binding Phone}"/>
-                            <Label Content="{Binding Email}"/>
+                            <Label Content="{Binding Fio}" FontSize="20"/>
+                            <Label Content="{Binding Contacts}"/>
                             <Label Content="{Binding Cabinet}"/>
                         </StackPanel>
                     </DataTemplate>

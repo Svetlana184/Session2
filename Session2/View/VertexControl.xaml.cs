@@ -52,6 +52,7 @@ namespace Session2.View
                            db.Employees.FirstOrDefault(p=>p.IdDepartment==Department)!.Position
                        };
             ParentWindow.EmployerList.ItemsSource = list;
+
         }
     }
 }

@@ -58,62 +58,40 @@ namespace Session2.View
             this.Background=new SolidColorBrush(Colors.Green);
             this.IsActive = true;
             ParentWindow.EmployerList.ItemsSource=null;
-            if (Level == 1)
-            {
-                var list = from emp in db.Employees
+
+
+
+            ArrayList all = new ArrayList();
+            //1 - список первичных наследников
+            var depList = (from dep in db.Departments
+                           where dep.IdDepartmentParent == Department
                            select new
                            {
-                               DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == Department)!.DepartmentName + " - " +
-                               emp.Position,
-                               Fio = emp.FirstName + " " + emp.Surname + " " + emp.SecondName,
-                               Contacts = emp.PhoneWork + " " + emp.Email,
-                               Cabinet = emp.Cabinet
-                           };
-                var s = list.ToList();
-                ParentWindow.EmployerList.ItemsSource = s;
-            }
-            else
-            {
-                var list = (from emp in db.Employees
-                           where emp.IdDepartment == Department
-                           select new
-                           {
-                               DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == Department)!.DepartmentName + " - " +emp.Position,
-                               Fio = emp.FirstName + " " + emp.Surname + " " + emp.SecondName,
-                               Contacts = emp.PhoneWork + " " + emp.Email,
-                               Cabinet = emp.Cabinet
+                               IdDep = dep.IdDepartment
                            }).ToList();
-                if (list.Count == 0)
-                {
-                    var depList = (from dep in db.Departments
-                                  where dep.IdDepartmentParent == Department
-                                  select new
-                                  {
-                                      IdDep = dep.IdDepartment
-                                  }).ToList();
-                    ArrayList all=new  ArrayList();
-                    for (int i = 0; i < depList.Count; i++)
-                    {
-                        var temp = (from emp in db.Employees
-                                   where emp.IdDepartment == depList[i].IdDep
-                                   select new
-                                   {
-                                       DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == depList[i].IdDep)!.DepartmentName + " - " +emp.Position,
-                                       Fio = emp.FirstName + " " + emp.Surname + " " + emp.SecondName,
-                                       Contacts = emp.PhoneWork + " " + emp.Email,
-                                       Cabinet = emp.Cabinet
-                                   }).ToList();
-                        all.AddRange(temp);
-                    }
-                    ParentWindow.EmployerList.ItemsSource = all;
-                }
-                else
-                {
-                    ParentWindow.EmployerList.ItemsSource = list;
-                }
+
+            List<Employee> listMain = db.Employees.Where(p => p.IdDepartment == Department).ToList();
+
+            for (int i = 0; i < depList.Count; i++)
+            {
+                List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == depList[i].IdDep).ToList();
+                listMain.AddRange(ListTemp);
             }
-            
-     
+            listMain.Sort();
+
+            var list = (from empl in listMain
+                        select new
+                        {
+                            DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == empl.IdDepartment)!.DepartmentName + " - " + empl.Position,
+                            Fio = empl.Surname + " " + empl.FirstName + " " + empl.SecondName,
+                            Contacts = empl.PhoneWork + " " + empl.Email,
+                            Cabinet = empl.Cabinet
+                        }).ToList();
+
+            all.AddRange(list);
+
+            ParentWindow.EmployerList.ItemsSource = all;
+
 
         }
     }

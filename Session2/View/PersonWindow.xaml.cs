@@ -64,11 +64,6 @@ namespace Session2.View
             get { return Email_.Text; }
             set { Email_.Text = value; }
         }
-        //public string Department
-        //{
-        //    get { return Department_.Text; }
-        //    set { Department_.Text = value; }
-        //}
       
         public string Other
         {
@@ -86,16 +81,16 @@ namespace Session2.View
             if (vertex != null) {
                 selectedVertex = vertex;
                 Department_.Text = selectedVertex.NameDepartment;
+                List<Employee> list = db.Employees.Where(p => p.IdDepartment == selectedVertex!.Department).ToList();
+
+                Helper_.ItemsSource = list;
+                Helper_.SelectedValuePath = "IdEmployee";
+                Helper_.DisplayMemberPath = "Surname";
+                Boss_.ItemsSource = list;
+                Boss_.SelectedValuePath = "IdEmployee";
+                Boss_.DisplayMemberPath = "Surname";
+                Boss_.ItemsSource = list;
             }
-            List<Employee> list = db.Employees.Where(p => p.IdDepartment == selectedVertex!.Department).ToList();
- 
-            Helper_.ItemsSource = list;
-            Helper_.SelectedValuePath = "IdEmployee";
-            Helper_.DisplayMemberPath = "Surname";
-            Boss_.ItemsSource = list;
-            Boss_.SelectedValuePath = "IdEmployee";
-            Boss_.DisplayMemberPath = "Surname";
-            Boss_.ItemsSource = list;
         }
 
 
@@ -107,6 +102,11 @@ namespace Session2.View
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DialogResult =false;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -55,6 +55,7 @@ namespace Session2
                 employee.Cabinet = personWindow.Cabinet;
                 employee.Email = personWindow.Email;
                 employee.Other = personWindow.Other;
+                employee.IdDepartment = SelectedVertex.Department;
                 db.Employees.Add(employee);
                 db.SaveChanges();
             }

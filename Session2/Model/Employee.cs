@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Session2.Model;
 
-public partial class Employee
+public partial class Employee : IComparable<Employee>
 {
     public int IdEmployee { get; set; }
 
@@ -44,4 +44,30 @@ public partial class Employee
     public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
 
     public virtual Department IdDepartmentNavigation { get; set; } = null!;
+
+    public int CompareTo(Employee? other)
+    {
+        if (other is Employee)
+        {
+            var emp = other as Employee;
+            int comp = this.Surname.CompareTo(emp.Surname);
+            if (comp != 0)
+            {
+                return comp;
+            }
+            else
+            {
+                comp = this.FirstName.CompareTo(emp.FirstName);
+                if (comp!=0)
+                {
+                    return comp;
+                }
+                else return this.SecondName!.CompareTo(emp.SecondName);
+            }
+        }
+        else
+        {
+            throw new ArgumentException("Некорректное значение параметра");
+        }
+    }
 }

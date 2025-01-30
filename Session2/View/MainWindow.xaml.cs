@@ -21,6 +21,7 @@ namespace Session2
     {
         public Graph Graph { get; set; }
         private RoadOfRussiaContext db;
+        private VertexControl SelectedVertex { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -36,6 +37,36 @@ namespace Session2
             }
             Graph.DrawGraph(MainCanvas);
             
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedVertex = FindSelected();
+            PersonWindow personWindow = new PersonWindow(new Employee(),SelectedVertex);
+            if (personWindow.ShowDialog() == true)
+            {
+                Employee employee = new Employee();
+                employee.Surname=personWindow.Surname;
+                employee.FirstName = personWindow.Firstname;
+                employee.SecondName = personWindow.Secondname;
+                employee.Position = personWindow.Position;
+                employee.PhoneWork = personWindow.PhoneWork;
+                employee.Phone = personWindow.Phone;
+                employee.Cabinet = personWindow.Cabinet;
+                employee.Email = personWindow.Email;
+                //employee.IdDepartment = db.Departments.FirstOrDefault(p => p.DepartmentName == personWindow.Department)!.IdDepartment;
+                employee.Other = personWindow.Other;
+                db.Employees.Add(employee);
+                db.SaveChanges();
+            }
+        }
+        private VertexControl FindSelected()
+        {
+            foreach (VertexControl v in Graph.vertices)
+            {
+                if(v.IsActive==true) return v;
+            }
+            return null!;
         }
     }
 }

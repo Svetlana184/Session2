@@ -3,46 +3,47 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialIcons ="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:local="clr-namespace:Session2.View"
         mc:Ignorable="d"
-        Title="PersonWindow" Height="450" Width="800">
+        Title="PersonWindow" Height="590" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions Grid.Column="0">
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="9*"/>
-            <RowDefinition Height="1*"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.75*"/>
+            <RowDefinition Height="9.5*"/>
+            <RowDefinition Height="0.75*"/>
         </Grid.RowDefinitions>
-        <Button Content="Перейти в режим редактирования" Width="50" HorizontalAlignment="Right" Height="30" Margin="5"/>
-        <Button Content="Уволить" Width="50" HorizontalAlignment="Left" Height="30" Margin="5"/>
-        <ListBox Grid.Column="0" Grid.Row="1" x:Name="PersonList" Width="400" Height="400">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                    <StackPanel>
-                        <TextBox Text="{Binding Fio}"/>
-                        <TextBox Text="{Binding Phone}"/>
-                        <TextBox Text="{Binding BirthDay}"/>
-                        <TextBox Text="{Binding Department}"/>
-                        <TextBox Text="{Binding Position}"/>
-                        <TextBox Text="{Binding Boss}"/>
-                        <TextBox Text="{Binding Helper}"/>
-                        <TextBox Text="{Binding PhoneWork}"/>
-                        <TextBox Text="{Binding Email}"/>
-                        <TextBox Text="{Binding Cabinet}"/>
-                        <TextBox Text="{Binding Other}"/>
-                    </StackPanel>
-                </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="100" HorizontalAlignment="Right" Margin="5" Background="Green"/>
-        <Button  Grid.Row="2" Grid.Column="0" Content="Отмена" Width="100" HorizontalAlignment="Left" Margin="5"/>
+        <Button  Width="50" HorizontalAlignment="Right" Height="25" Margin="10 5">
+            <Image Source="pack://application:,,,/pen.png" />
+        </Button>
+        <Button Width="100" HorizontalAlignment="Left" Height="25" Margin="10 5" />
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <TextBox x:Name="SurName" Margin="10  5" materialDesign:HintAssist.Hint="Surname">
+            </TextBox>
+            <TextBox x:Name="FirstName" Margin="10  5" materialDesign:HintAssist.Hint="First Name"/>
+            <TextBox x:Name="SecondName" Margin="10  5" materialDesign:HintAssist.Hint="Second Name"/>
+            <TextBox x:Name="Position_" Margin="10  5" materialDesign:HintAssist.Hint="Position"/>
+            <TextBox x:Name="Phonework_" Margin="10  5" materialDesign:HintAssist.Hint="Work Phone"/>
+            <TextBox x:Name="Phone_" Margin="10  5" materialDesign:HintAssist.Hint="Phone"/>
+            <TextBox x:Name="Cabinet_" Margin="10  5" materialDesign:HintAssist.Hint="Cabinet"/>
+            <TextBox x:Name="Email_" Margin="10  5" materialDesign:HintAssist.Hint="E-mail"/>
+            <TextBox x:Name="Department_" Margin="10  5" materialDesign:HintAssist.Hint="Department"/>
+            <ComboBox x:Name="Helper_" Margin="10 5" materialDesign:HintAssist.Hint="Helper"/>
+            <ComboBox x:Name="Boss_" Margin="10 5" materialDesign:HintAssist.Hint="Boss"/>
+            <DatePicker IsDropDownOpen="True" SelectedDateFormat="Short" Margin="10 5" materialDesign:HintAssist.Hint="Birth Day"/>
+            <TextBox x:Name="Other_" Margin="10 5" Height="40" materialDesign:HintAssist.Hint="Other"/>
+        </StackPanel>
+        <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="90" HorizontalAlignment="Right" Margin="10 5" Background="Green" Click="Button_Click" Height="25"/>
+        <Button  Grid.Row="2" Grid.Column="0" Content="Отмена" Width="90" HorizontalAlignment="Left" Margin="10 5" Click="Button_Click_1" Height="25"/>
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Прошедшие" Width="100" Background="Green" Margin="30 10 10 0"/>
-            <Button Content="Текущие" Width="100" Background="Green" Margin="10 10 10 0"/>
-            <Button Content="Будущие" Width="100" Background="Green" Margin="10 10 10 0"/>
+            <Button Content="Прошедшие" Width="100" Background="Green" Margin="30 10 10 0" FontSize="11"/>
+            <Button Content="Текущие" Width="100" Background="Green" Margin="10 10 10 0" FontSize="11"/>
+            <Button Content="Будущие" Width="100" Background="Green" Margin="10 10 10 0" FontSize="11"/>
         </StackPanel>
         <ListView  Grid.Column="1" Grid.Row="1" x:Name="Past">
             <Label Content="Обучения"/>

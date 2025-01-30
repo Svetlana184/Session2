@@ -28,6 +28,7 @@ namespace Session2.View
         public int? ParentDepartment { get; set; }
         public int Level { get; set; }
         public MainWindow ParentWindow { get; set; }
+        public bool IsActive { get; set; }
 
 
         private RoadOfRussiaContext db;
@@ -48,13 +49,13 @@ namespace Session2.View
 
         private void UserControl_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            ParentWindow.Graph.v.Background= new SolidColorBrush(Colors.LightGreen);
+            ParentWindow.Graph.v.Background= new SolidColorBrush(Color.FromRgb(120, 178, 75));
             foreach (var g in ParentWindow.Graph.vertices)
             {
-                g.Background = new SolidColorBrush(Colors.LightGreen);
+                g.Background = new SolidColorBrush(Color.FromRgb(120, 178, 75));
             }
             this.Background=new SolidColorBrush(Colors.Green);
-
+            this.IsActive = true;
             ParentWindow.EmployerList.ItemsSource=null;
             if (Level == 1)
             {

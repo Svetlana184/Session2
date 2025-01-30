@@ -54,7 +54,6 @@ namespace Session2
                 employee.Phone = personWindow.Phone;
                 employee.Cabinet = personWindow.Cabinet;
                 employee.Email = personWindow.Email;
-                //employee.IdDepartment = db.Departments.FirstOrDefault(p => p.DepartmentName == personWindow.Department)!.IdDepartment;
                 employee.Other = personWindow.Other;
                 db.Employees.Add(employee);
                 db.SaveChanges();

@@ -92,6 +92,10 @@ namespace Session2.View
             Helper_.ItemsSource = list;
             Helper_.SelectedValuePath = "IdEmployee";
             Helper_.DisplayMemberPath = "Surname";
+            Boss_.ItemsSource = list;
+            Boss_.SelectedValuePath = "IdEmployee";
+            Boss_.DisplayMemberPath = "Surname";
+            Boss_.ItemsSource = list;
         }
 
 

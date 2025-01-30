@@ -53,6 +53,7 @@ namespace Session2.View
             foreach (var g in ParentWindow.Graph.vertices)
             {
                 g.Background = new SolidColorBrush(Color.FromRgb(120, 178, 75));
+                g.IsActive = false;
             }
             this.Background=new SolidColorBrush(Colors.Green);
             this.IsActive = true;

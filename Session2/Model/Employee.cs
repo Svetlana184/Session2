@@ -58,11 +58,15 @@ public partial class Employee : IComparable<Employee>
             else
             {
                 comp = this.FirstName.CompareTo(emp.FirstName);
-                if (comp!=0)
+                if (comp != 0)
                 {
                     return comp;
                 }
-                else return this.SecondName!.CompareTo(emp.SecondName);
+                else if (this.SecondName != null && emp.SecondName != null)
+                {
+                    return this.SecondName!.CompareTo(emp.SecondName);
+                }
+                else return 0;
             }
         }
         else

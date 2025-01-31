@@ -1,6 +1,7 @@
 ﻿using Microsoft.Identity.Client;
 using Session2.Model;
 using Session2.View;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,8 +57,13 @@ namespace Session2
                 employee.Email = personWindow.Email;
                 employee.Other = personWindow.Other;
                 employee.IdDepartment = SelectedVertex.Department;
+                employee.IdBoss = personWindow.BossId;
+                employee.IdHelper = personWindow.HelperId;
+                //employee.BirthDay = DateOnly.FromDateTime((personWindow.BirthDay));
+
                 db.Employees.Add(employee);
                 db.SaveChanges();
+                   
             }
         }
         private VertexControl FindSelected()
@@ -67,6 +73,17 @@ namespace Session2
                 if(v.IsActive==true) return v;
             }
             return null!;
+        }
+
+        private void EmployerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedVertex = FindSelected();
+            var emp = EmployerList.SelectedItem.GetType();
+            int id= (int)emp.GetProperty("Id")!.GetValue(EmployerList.SelectedItem, null)!;
+            Employee employee = db.Employees.FirstOrDefault(p => p.IdEmployee == id)!;
+            PersonWindow personWindow = new PersonWindow(employee, SelectedVertex);
+            personWindow.Show();
+            
         }
     }
 }

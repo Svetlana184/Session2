@@ -104,7 +104,8 @@ namespace Session2.View
                             DepAndPosition = db.Departments.FirstOrDefault(p => p.IdDepartment == empl.IdDepartment)!.DepartmentName + " - " + empl.Position,
                             Fio = empl.Surname + " " + empl.FirstName + " " + empl.SecondName,
                             Contacts = empl.PhoneWork + " " + empl.Email,
-                            Cabinet = empl.Cabinet
+                            Cabinet = empl.Cabinet,
+                            Id = empl.IdEmployee
                         }).ToList();
 
             ParentWindow.EmployerList.ItemsSource = list;

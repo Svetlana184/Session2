@@ -71,8 +71,33 @@ namespace Session2.View
             set { Other_.Text = value; }
         }
 
+        public DateTime? BirthDay
+        {
+            get 
+            {
+                if (BirthDay_.SelectedDate != null)
+                {
+                    return ((DateTime)BirthDay_.SelectedDate!);
+                }
+                else throw new  Exception("обязательное поле");
 
+            }
+            set
+            {
+                BirthDay_.SelectedDate = value;
+            }
+        }
 
+        public int? BossId
+        {
+            get { return (int)Boss_.SelectedValue; }
+            set { Boss_.SelectedValue = value; }
+        }
+        public int? HelperId
+        {
+            get { return (int)Helper_.SelectedValue; }
+            set { Helper_.SelectedValue = value; }
+        }
         public PersonWindow(Employee emp, VertexControl vertex)
         {
             InitializeComponent();
@@ -91,6 +116,24 @@ namespace Session2.View
                 Boss_.DisplayMemberPath = "Surname";
                 Boss_.ItemsSource = list;
             }
+            if (emp.IdEmployee != 0)
+            {
+                Surname = emp.Surname;
+                Firstname = emp.FirstName;
+                Secondname = emp.SecondName;
+                Position = emp.Position;
+                PhoneWork = emp.PhoneWork;
+                Phone = emp.Phone;
+                Cabinet = emp.Cabinet;
+                Email = emp.Email;
+                Other = emp.Other;
+                BossId = emp.IdBoss;
+                HelperId = emp.IdHelper;
+                //BirthDay = ()emp.BirthDay;
+
+
+            }
+            
         }
 
 
@@ -102,11 +145,6 @@ namespace Session2.View
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DialogResult =false;
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

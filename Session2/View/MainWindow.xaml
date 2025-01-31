@@ -46,7 +46,7 @@
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <ListBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="EmployerList">
+            <ListBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="EmployerList" SelectionChanged="EmployerList_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="900" Background="#78B24B">

@@ -59,7 +59,7 @@ namespace Session2
                 employee.IdDepartment = SelectedVertex.Department;
                 employee.IdBoss = personWindow.BossId;
                 employee.IdHelper = personWindow.HelperId;
-                //employee.BirthDay = DateOnly.FromDateTime((personWindow.BirthDay));
+                employee.BirthDay = personWindow.BirthDay;
 
                 db.Employees.Add(employee);
                 db.SaveChanges();

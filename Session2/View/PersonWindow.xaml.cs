@@ -71,32 +71,32 @@ namespace Session2.View
             set { Other_.Text = value; }
         }
 
-        public DateTime? BirthDay
+        public DateOnly? BirthDay
         {
             get 
             {
                 if (BirthDay_.SelectedDate != null)
                 {
-                    return ((DateTime)BirthDay_.SelectedDate!);
+                    return DateOnly.Parse(BirthDay_.SelectedDate.ToString());
                 }
-                else throw new  Exception("обязательное поле");
+                else return new DateOnly();
 
             }
             set
             {
-                BirthDay_.SelectedDate = value;
+                BirthDay_.SelectedDate = DateTime.Parse(value.ToString());
             }
         }
 
         public int? BossId
         {
             get { return (int)Boss_.SelectedValue; }
-            set { Boss_.DisplayMemberPath = db.Employees.FirstOrDefault(p => p.IdEmployee == value).Surname; }
+            set { Boss_.SelectedValue = value; }
         }
         public int? HelperId
         {
             get { return (int)Helper_.SelectedValue; }
-            set { Helper_.DisplayMemberPath = db.Employees.FirstOrDefault(p => p.IdEmployee == value).Surname; }
+            set { Helper_.SelectedValue = value; }
         }
         public PersonWindow(Employee emp, VertexControl vertex)
         {
@@ -129,7 +129,7 @@ namespace Session2.View
                 Other = emp.Other;
                 BossId = emp.IdBoss;
                 HelperId = emp.IdHelper;
-                //BirthDay = ()emp.BirthDay;
+                BirthDay = emp.BirthDay;
 
 
             }

@@ -33,8 +33,8 @@
             <TextBox x:Name="Cabinet_" Margin="10  5" materialDesign:HintAssist.Hint="Cabinet"/>
             <TextBox x:Name="Email_" Margin="10  5" materialDesign:HintAssist.Hint="E-mail"/>
             <TextBox x:Name="Department_" Margin="10  5" materialDesign:HintAssist.Hint="Department"/>
-            <ComboBox x:Name="Helper_" Margin="10 5" materialDesign:HintAssist.Hint="Helper"  IsEditable="True"/>
             <ComboBox x:Name="Boss_" Margin="10 5" materialDesign:HintAssist.Hint="Boss"  IsEditable="True"/>
+            <ComboBox x:Name="Helper_" Margin="10 5" materialDesign:HintAssist.Hint="Helper"  IsEditable="True"/>
             <DatePicker x:Name="BirthDay_" IsDropDownOpen="True" SelectedDateFormat="Short" Margin="10 5" materialDesign:HintAssist.Hint="Birth Day"/>
             <TextBox x:Name="Other_" Margin="10 5" Height="40" materialDesign:HintAssist.Hint="Other"/>
         </StackPanel>

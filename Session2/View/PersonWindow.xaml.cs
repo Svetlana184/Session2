@@ -91,12 +91,12 @@ namespace Session2.View
         public int? BossId
         {
             get { return (int)Boss_.SelectedValue; }
-            set { Boss_.SelectedValue = value; }
+            set { Boss_.DisplayMemberPath = db.Employees.FirstOrDefault(p => p.IdEmployee == value).Surname; }
         }
         public int? HelperId
         {
             get { return (int)Helper_.SelectedValue; }
-            set { Helper_.SelectedValue = value; }
+            set { Helper_.DisplayMemberPath = db.Employees.FirstOrDefault(p => p.IdEmployee == value).Surname; }
         }
         public PersonWindow(Employee emp, VertexControl vertex)
         {

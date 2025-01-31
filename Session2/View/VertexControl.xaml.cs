@@ -60,23 +60,42 @@ namespace Session2.View
             ParentWindow.EmployerList.ItemsSource=null;
 
 
-
-            ArrayList all = new ArrayList();
+            List<Employee> listMain = db.Employees.Where(p => p.IdDepartment == Department).ToList();
             //1 - список первичных наследников
+
+
             var depList = (from dep in db.Departments
                            where dep.IdDepartmentParent == Department
                            select new
                            {
                                IdDep = dep.IdDepartment
                            }).ToList();
-
-            List<Employee> listMain = db.Employees.Where(p => p.IdDepartment == Department).ToList();
-
             for (int i = 0; i < depList.Count; i++)
             {
                 List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == depList[i].IdDep).ToList();
                 listMain.AddRange(ListTemp);
             }
+
+            for (int j = Level; j < ParentWindow.Graph.MaxLevel; j++)
+            {
+                foreach (var v in depList)
+                {
+                    var dopList = (from dep in db.Departments
+                                     where dep.IdDepartmentParent == v.IdDep
+                                     select new
+                                     {
+                                         IdDep = dep.IdDepartment
+                                     }).ToList();
+                    for (int i = 0; i < dopList.Count; i++)
+                    {
+                        List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == dopList[i].IdDep).ToList();
+                        listMain.AddRange(ListTemp);
+                    }
+                }
+                
+            }
+
+
             listMain.Sort();
 
             var list = (from empl in listMain
@@ -88,9 +107,7 @@ namespace Session2.View
                             Cabinet = empl.Cabinet
                         }).ToList();
 
-            all.AddRange(list);
-
-            ParentWindow.EmployerList.ItemsSource = all;
+            ParentWindow.EmployerList.ItemsSource = list;
 
 
         }

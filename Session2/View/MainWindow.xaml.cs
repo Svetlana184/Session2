@@ -27,13 +27,13 @@ namespace Session2
         {
             InitializeComponent();
             db=new RoadOfRussiaContext();
-            VertexControl vertexRoot = new VertexControl(987, "Дороги России", 0,this);
+            VertexControl vertexRoot = new(987, "Дороги России", 0, this);
             vertexRoot.Level = 1;
             Graph = new Graph(vertexRoot);
             List<Department> departmentList = db.Departments.Where(p => p.IdDepartment != 987).ToList();
             foreach (Department department in departmentList)
             {
-                VertexControl v = new VertexControl(department.IdDepartment, department.DepartmentName, department.IdDepartmentParent,this);
+                VertexControl v = new(department.IdDepartment, department.DepartmentName, department.IdDepartmentParent,this);
                 Graph.AddVertex(v);
             }
             Graph.DrawGraph(MainCanvas);
@@ -46,20 +46,22 @@ namespace Session2
             PersonWindow personWindow = new PersonWindow(new Employee(),SelectedVertex);
             if (personWindow.ShowDialog() == true)
             {
-                Employee employee = new Employee();
-                employee.Surname=personWindow.Surname;
-                employee.FirstName = personWindow.Firstname;
-                employee.SecondName = personWindow.Secondname;
-                employee.Position = personWindow.Position;
-                employee.PhoneWork = personWindow.PhoneWork;
-                employee.Phone = personWindow.Phone;
-                employee.Cabinet = personWindow.Cabinet;
-                employee.Email = personWindow.Email;
-                employee.Other = personWindow.Other;
-                employee.IdDepartment = SelectedVertex.Department;
-                employee.IdBoss = personWindow.BossId;
-                employee.IdHelper = personWindow.HelperId;
-                employee.BirthDay = personWindow.BirthDay;
+                Employee employee = new()
+                {
+                    Surname = personWindow.Surname,
+                    FirstName = personWindow.Firstname,
+                    SecondName = personWindow.Secondname,
+                    Position = personWindow.Position,
+                    PhoneWork = personWindow.PhoneWork,
+                    Phone = personWindow.Phone,
+                    Cabinet = personWindow.Cabinet,
+                    Email = personWindow.Email,
+                    Other = personWindow.Other,
+                    IdDepartment = SelectedVertex.Department,
+                    IdBoss = personWindow.BossId,
+                    IdHelper = personWindow.HelperId,
+                    BirthDay = personWindow.BirthDay
+                };
 
                 db.Employees.Add(employee);
                 db.SaveChanges();
@@ -81,7 +83,7 @@ namespace Session2
             var emp = EmployerList.SelectedItem.GetType();
             int id= (int)emp.GetProperty("Id")!.GetValue(EmployerList.SelectedItem, null)!;
             Employee employee = db.Employees.FirstOrDefault(p => p.IdEmployee == id)!;
-            PersonWindow personWindow = new PersonWindow(employee, SelectedVertex);
+            PersonWindow personWindow = new(employee, SelectedVertex);
             personWindow.Show();
             
         }

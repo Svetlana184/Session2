@@ -22,6 +22,7 @@ namespace Session2.View
     public partial class PersonWindow : Window
     {
         private RoadOfRussiaContext db;
+        private bool IsEditEnabled = false;
         public Employee Employee { get; set; }
         private VertexControl selectedVertex;
         public string Surname
@@ -77,7 +78,7 @@ namespace Session2.View
             {
                 if (BirthDay_.SelectedDate != null)
                 {
-                    return DateOnly.Parse(BirthDay_.SelectedDate.ToString());
+                    return DateOnly.FromDateTime((DateTime)BirthDay_.SelectedDate);
                 }
                 else return new DateOnly();
 
@@ -90,12 +91,20 @@ namespace Session2.View
 
         public int? BossId
         {
-            get { return (int)Boss_.SelectedValue; }
+            get 
+            { 
+                if (Boss_.SelectedValue != null) return (int)Boss_.SelectedValue; 
+                else return null;
+            }
             set { Boss_.SelectedValue = value; }
         }
         public int? HelperId
         {
-            get { return (int)Helper_.SelectedValue; }
+            get 
+            {
+                if (Helper_.SelectedValue != null) return (int)Helper_.SelectedValue;
+                else return null;
+            }
             set { Helper_.SelectedValue = value; }
         }
         public PersonWindow(Employee emp, VertexControl vertex)
@@ -130,8 +139,25 @@ namespace Session2.View
                 BossId = emp.IdBoss;
                 HelperId = emp.IdHelper;
                 BirthDay = emp.BirthDay;
-
-
+                //доступность элементов
+                SurName.IsEnabled = false;
+                FirstName.IsEnabled = false;
+                SecondName.IsEnabled = false;
+                Position_.IsEnabled = false;
+                Phonework_.IsEnabled = false;
+                Phone_.IsEnabled = false;
+                Cabinet_.IsEnabled = false;
+                Email_.IsEnabled = false;
+                Other_.IsEnabled = false;
+                BirthDay_.IsEnabled = false;
+                Helper_.IsEnabled = false;
+                Boss_.IsEnabled = false;
+                IsEditEnabled = false;
+            }
+            else
+            {
+                IsEditEnabled = true;
+                Button_Edit.Visibility = Visibility.Hidden;
             }
             
         }
@@ -139,12 +165,48 @@ namespace Session2.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult=true;
+            if(IsEditEnabled) DialogResult=true;
+            else DialogResult=false;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             DialogResult =false;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+
+            if (IsEditEnabled=!IsEditEnabled)
+            {
+                SurName.IsEnabled = true;
+                FirstName.IsEnabled = true;
+                SecondName.IsEnabled = true;
+                Position_.IsEnabled = true;
+                Phonework_.IsEnabled = true;
+                Phone_.IsEnabled = true;
+                Cabinet_.IsEnabled = true;
+                Email_.IsEnabled = true;
+                Other_.IsEnabled = true;
+                BirthDay_.IsEnabled = true;
+                Helper_.IsEnabled = true;
+                Boss_.IsEnabled = true;
+            }
+            else
+            {
+                SurName.IsEnabled = false;
+                FirstName.IsEnabled = false;
+                SecondName.IsEnabled = false;
+                Position_.IsEnabled = false;
+                Phonework_.IsEnabled = false;
+                Phone_.IsEnabled = false;
+                Cabinet_.IsEnabled = false;
+                Email_.IsEnabled = false;
+                Other_.IsEnabled = false;
+                BirthDay_.IsEnabled = false;
+                Helper_.IsEnabled = false;
+                Boss_.IsEnabled = false;
+            }
         }
     }
 }

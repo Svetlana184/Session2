@@ -18,7 +18,7 @@
             <RowDefinition Height="9.5*"/>
             <RowDefinition Height="0.75*"/>
         </Grid.RowDefinitions>
-        <Button  Width="50" HorizontalAlignment="Right" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="Перейти в режим редактирования"/>
+        <Button  x:Name="Button_Edit" Width="50" HorizontalAlignment="Right" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="Перейти в режим редактирования" Click="Button_Click_2"/>
         <Button Width="100" HorizontalAlignment="Left" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Fire}" ToolTip="Удалить сотрудника"/>
         <StackPanel Grid.Row="1" Grid.Column="0">
             <TextBox x:Name="SurName" Margin="10  5" materialDesign:HintAssist.Hint="Surname">
@@ -86,7 +86,7 @@
                         <Label Content="Отгулы"/>
                         <TextBox Text="{Binding SkipDayPresent}" Width="350" Background="LightGray"/>
                         <Label Content="Отпуска"/>
-                        <TextBox Text="{Binding VacationFuture}"/>
+                        <TextBox Text="{Binding VacationFuture}" Width="350" Height="100"/>
                     </ListView>
                 </TabItem.Content>
             </TabItem>

@@ -15,7 +15,7 @@ public partial class RoadOfRussiaContext : DbContext
     {
     }
 
-    public virtual DbSet<Calendar> Calendars { get; set; }
+    public virtual DbSet<Calendar_> Calendars { get; set; }
 
     public virtual DbSet<Candidate> Candidates { get; set; }
 
@@ -39,7 +39,7 @@ public partial class RoadOfRussiaContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Calendar>(entity =>
+        modelBuilder.Entity<Calendar_>(entity =>
         {
             entity.HasKey(e => e.IdCalendar);
 

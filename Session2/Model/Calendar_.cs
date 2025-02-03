@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Session2.Model;
 
-public partial class Calendar
+public partial class Calendar_
 {
     public int IdCalendar { get; set; }
 

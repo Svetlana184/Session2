@@ -110,7 +110,8 @@ namespace Session2.View
 
             ParentWindow.EmployerList.ItemsSource = list;
 
-
+            
+            
         }
     }
 }

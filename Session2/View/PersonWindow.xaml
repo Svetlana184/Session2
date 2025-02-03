@@ -24,8 +24,6 @@
             <TextBox x:Name="SurName" Margin="10  5" materialDesign:HintAssist.Hint="Surname">
             </TextBox>
             <TextBox x:Name="FirstName" Margin="10  5" materialDesign:HintAssist.Hint="First Name"/>
-
-
             <TextBox x:Name="SecondName" Margin="10  5" materialDesign:HintAssist.Hint="Second Name"/>
             <TextBox x:Name="Position_" Margin="10  5" materialDesign:HintAssist.Hint="Position"/>
             <TextBox x:Name="Phonework_" Margin="10  5" materialDesign:HintAssist.Hint="Work Phone"/>
@@ -41,59 +39,47 @@
         <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="90" HorizontalAlignment="Right" Margin="10 5" Background="Green" Click="Button_Click" Height="25"/>
         <Button  Grid.Row="2" Grid.Column="0" Content="Отмена" Width="90" HorizontalAlignment="Left" Margin="10 5" Click="Button_Click_1" Height="25"/>
 
-        <TabControl x:Name="Calendar_" Grid.Column="1" Grid.RowSpan="2">
-            <TabItem x:Name="Past" HorizontalAlignment="Left">
-                <TabItem.Header>
-                    <TextBlock Text="Прошедшие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" TextAlignment="Center"/>
-                </TabItem.Header>
-                <TabItem.Content>
-                    <ListView  Grid.Column="1" Grid.Row="1" Height="500" Width="400">
-                        <Label Content="Обучения"/>
-                        <TextBox Text="{Binding LearningPast}" Width="350" Background="LightGray"/>
-                        <TextBox Text="{Binding LearningPast}" Width="350" Background="LightGray"/>
-                        <Label Content="Отгулы"/>
-                        <TextBox Text="{Binding SkipDayPast}" Width="350" Background="LightGray"/>
-                        <Label Content="Отпуска"/>
-                        <TextBox Text="{Binding VacationPast}"/>
-                    </ListView>
-                </TabItem.Content>
-            </TabItem>
-            <TabItem x:Name="Present" HorizontalAlignment="Left">
-                <TabItem.Header>
-                    <TextBlock Text="Текущие" Width="90" Height="25" Background="Green" FontSize="9" Foreground="White" TextAlignment="Center"/>
-                </TabItem.Header>
-                <TabItem.Content>
-                    <ListView  Grid.Column="1"  Grid.Row="1" Height="500" Width="400">
-                        <Label Content="Обучения"/>
-                        <TextBox Text="{Binding LearningPresent}" Width="350" Background="LightGray"/>
-                        <TextBox Text="{Binding LearningPresent}" Width="350" Background="LightGray"/>
-                        <Label Content="Отгулы"/>
-                        <TextBox Text="{Binding SkipDayPresent}" Width="350" Background="LightGray"/>
-                        <Label Content="Отпуска"/>
-                        <TextBox Text="{Binding VacationFuture}"/>
-                    </ListView>
-                </TabItem.Content>
-            </TabItem>
-            <TabItem x:Name="Future">
-                <TabItem.Header>
-                    <TextBlock Text="Будущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" TextAlignment="Center"/>
-                </TabItem.Header>
-                <TabItem.Content >
-                    <ListView  Grid.Column="1"  Grid.Row="1"  Background="Gray">
-                        <Label Content="Обучения"/>
-                        <TextBox Text="{Binding LearningFuture}" Width="350" Background="LightGray"/>
-                        <TextBox Text="{Binding LearningFuture}" Width="350" Background="LightGray"/>
-                        <Label Content="Отгулы"/>
-                        <TextBox Text="{Binding SkipDayPresent}" Width="350" Background="LightGray"/>
-                        <Label Content="Отпуска"/>
-                        <TextBox Text="{Binding VacationFuture}" Width="350" Height="100"/>
-                    </ListView>
-                </TabItem.Content>
-            </TabItem>
-        </TabControl>
-
-        
-        
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" >
+            <Button Content="Прошедшие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0"/>
+            <Button Content="Текущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0"/>
+            <Button Content="Будущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0"/>
+        </StackPanel>
+        <ListBox  Grid.Column="1" Grid.Row="1" Height="200" Width="400" x:Name="StudyList" VerticalAlignment="Top">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="900">
+                        <Label Content="{Binding Dates}"/>
+                        <Label Content="{Binding EvName}"/>
+                        <Label Content="{Binding DescriptionStudy}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox  Grid.Column="1" Grid.Row="1" Height="200" Width="400" x:Name="SkipList" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="900">
+                        <Label Content="{Binding Dates}"/>
+                        <Label Content="{Binding EvName}"/>
+                        <Label Content="{Binding DescriptionStudy}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox  Grid.Column="1" Grid.Row="1" Height="200" Width="400" x:Name="VacationList" VerticalAlignment="Bottom">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="900">
+                        <Label Content="{Binding Dates}"/>
+                        <Label Content="{Binding EvName}"/>
+                        <Label Content="{Binding DescriptionStudy}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1" Grid.Row="2">
+            <Button Content="+" Width="50" HorizontalAlignment="Right" Margin="5" Height="30" ToolTip="Добавить событие"/>
+        </StackPanel>
     </Grid>
    
 </Window>

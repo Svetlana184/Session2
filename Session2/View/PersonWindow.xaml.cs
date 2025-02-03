@@ -107,8 +107,11 @@ namespace Session2.View
             }
             set { Helper_.SelectedValue = value; }
         }
+
+
         public PersonWindow(Employee emp, VertexControl vertex)
         {
+ 
             InitializeComponent();
             db = new RoadOfRussiaContext();
             Employee = emp;
@@ -159,9 +162,51 @@ namespace Session2.View
                 IsEditEnabled = true;
                 Button_Edit.Visibility = Visibility.Hidden;
             }
-            
-        }
 
+            //var listAll = (from c in db.Calendars
+            //                where c.IdEmployee == emp.IdEmployee
+            //                select new
+            //                {
+            //                    DatesStudy = c.DateStart + " - " + c.DateFinish,
+            //                    EvName = db.Events.FirstOrDefault(p => p.IdEvent == c.IdEvent).EventName,
+            //                    DescriptionStudy = db.Events.FirstOrDefault(p => p.IdEvent == c.IdEvent).EventDescription,
+            //                }).ToList();
+
+            //foreach (var item in listAll)
+            //{
+
+            //}
+            var listStudy = (from c in db.Calendars
+                             where c.TypeOfEvent == "Обучение"
+                             from e in db.Events
+                             where e.IdEvent == c.IdEvent
+                             select new
+                             {
+                                 Dates = c.DateStart + " - " + c.DateFinish,
+                                 EvName = e.EventName,
+                                 DescriptionStudy = e.EventDescription,
+                             }).ToList();
+            var listSkip = (from c in db.Calendars
+                            where c.TypeOfEvent == "Временное отсутствие"
+                            select new
+                             {
+                                 Dates = c.DateStart + " - " + c.DateFinish,
+                             }).ToList();
+            var listVacation = (from c in db.Calendars
+                                where c.TypeOfEvent == "Отпуск"
+                                select new
+                            {
+                                Dates = c.DateStart + " - " + c.DateFinish,
+                                
+                            }).ToList();
+            StudyList.Items.Clear();
+            StudyList.ItemsSource = listStudy;
+            SkipList.Items.Clear();
+            SkipList.ItemsSource = listSkip;
+            VacationList.Items.Clear();
+            VacationList.ItemsSource = listVacation;
+        }
+       
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -208,5 +253,7 @@ namespace Session2.View
                 Boss_.IsEnabled = false;
             }
         }
+
+        
     }
 }

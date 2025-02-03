@@ -35,9 +35,9 @@ public partial class Employee : IComparable<Employee>
 
     public string? Password { get; set; }
 
-    public virtual ICollection<Calendar> CalendarIdAlternateNavigations { get; set; } = new List<Calendar>();
+    public virtual ICollection<Calendar_> CalendarIdAlternateNavigations { get; set; } = new List<Calendar_>();
 
-    public virtual ICollection<Calendar> CalendarIdEmployeeNavigations { get; set; } = new List<Calendar>();
+    public virtual ICollection<Calendar_> CalendarIdEmployeeNavigations { get; set; } = new List<Calendar_>();
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 

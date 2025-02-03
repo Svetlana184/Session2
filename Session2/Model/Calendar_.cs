@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Session2.Model;
 
-public partial class Calendar_
+public partial class Calendar_ : IComparable
 {
     public int IdCalendar { get; set; }
 
@@ -26,4 +26,15 @@ public partial class Calendar_
     public virtual Employee? IdEmployeeNavigation { get; set; }
 
     public virtual Event? IdEventNavigation { get; set; }
+
+   
+    public int CompareTo(object? obj)
+    {
+        if (obj is Calendar_)
+        {
+            Calendar_ obj1 = obj as Calendar_;
+            return this.DateStart.CompareTo(obj1.DateStart);
+        }
+        return 0;
+    }
 }

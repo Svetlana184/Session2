@@ -18,8 +18,8 @@
             <RowDefinition Height="9.5*"/>
             <RowDefinition Height="0.75*"/>
         </Grid.RowDefinitions>
-        <Button  x:Name="Button_Edit" Width="50" HorizontalAlignment="Right" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="Перейти в режим редактирования" Click="Button_Click_2"/>
-        <Button Width="100" HorizontalAlignment="Left" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Fire}" ToolTip="Удалить сотрудника"/>
+        <Button  x:Name="Button_Edit" Width="50" HorizontalAlignment="Right" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="Перейти в режим редактирования" Click="Button_EditF"/>
+        <Button x:Name="ButtonFire" Width="100" HorizontalAlignment="Left" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Fire}" ToolTip="Удалить сотрудника" Click="Button_Fire"/>
         <StackPanel Grid.Row="1" Grid.Column="0">
             <TextBox x:Name="SurName" Margin="10  5" materialDesign:HintAssist.Hint="Surname">
             </TextBox>
@@ -36,46 +36,44 @@
             <DatePicker x:Name="BirthDay_" IsDropDownOpen="True" SelectedDateFormat="Short" Margin="10 5" materialDesign:HintAssist.Hint="Birth Day"/>
             <TextBox x:Name="Other_" Margin="10 5" Height="40" materialDesign:HintAssist.Hint="Other"/>
         </StackPanel>
-        <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="90" HorizontalAlignment="Right" Margin="10 5" Background="Green" Click="Button_Click" Height="25"/>
-        <Button  Grid.Row="2" Grid.Column="0" Content="Отмена" Width="90" HorizontalAlignment="Left" Margin="10 5" Click="Button_Click_1" Height="25"/>
+        <Button Grid.Row="2" Grid.Column="0" Content="Ок" Width="90" HorizontalAlignment="Right" Margin="10 5" Background="Green" Click="Button_Ok" Height="25"/>
+        <Button  Grid.Row="2" Grid.Column="0" Content="Отмена" Width="90" HorizontalAlignment="Left" Margin="10 5" Click="Button_Cancel" Height="25"/>
 
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" >
-            <Button Content="Прошедшие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0"/>
-            <Button Content="Текущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0"/>
-            <Button Content="Будущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0"/>
+            <Button x:Name="LastButton" Content="Прошедшие" Height="25" Width="90" Background="LightGreen" FontSize="9" Foreground="White" Margin="15 0" Click="Button_Last"/>
+            <Button x:Name="PresentButton" Content="Текущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0" Click="Button_Present"/>
+            <Button x:Name="FutureButton" Content="Будущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0" Click="Button_Future"/>
         </StackPanel>
         <ListView Grid.Column="1" Grid.Row="1">
-            <Label Content="Обучения"/>
-            <ListBox Width="400" x:Name="StudyList">
+            <Label Content="Обучения" FontSize="20"/>
+            <ListBox Width="900" x:Name="StudyList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900">
+                        <StackPanel Width="900" Background="LightGray" Margin="5">
                             <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding EvName}"/>
+                            <Label Content="{Binding EvName}" FontSize="18"/>
                             <Label Content="{Binding DescriptionStudy}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Label Content="Временное отсутствие"/>
-            <ListBox Width="400" x:Name="SkipList" >
+            <Label Content="Временное отсутствие" FontSize="20"/>
+            <ListBox Width="900" x:Name="SkipList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900">
+                        <StackPanel Width="900" Background="LightGray" Margin="5">
                             <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding EvName}"/>
                             <Label Content="{Binding DescriptionStudy}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Label Content="Отпуск"/>
-            <ListBox  Width="400" x:Name="VacationList">
+            <Label Content="Отпуск" FontSize="20"/>
+            <ListBox  Width="900" x:Name="VacationList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900">
+                        <StackPanel Width="900" Background="LightGray" Margin="5">
                             <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding EvName}"/>
                             <Label Content="{Binding DescriptionStudy}"/>
                         </StackPanel>
                     </DataTemplate>

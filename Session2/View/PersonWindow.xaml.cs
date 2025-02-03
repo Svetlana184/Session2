@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore;
 using Session2.Model;
 
 namespace Session2.View
@@ -19,15 +20,22 @@ namespace Session2.View
     /// <summary>
     /// Логика взаимодействия для PersonWindow.xaml
     /// </summary>
-    public partial class PersonWindow : Window
+    public partial class PersonWindow : Window, IDataErrorInfo
     {
         private RoadOfRussiaContext db;
         private bool IsEditEnabled = false;
         public Employee Employee { get; set; }
+        private bool ActivateLast = false;
+        private bool ActivatePresent = true;
+        private bool ActivateFuture = true;
         private VertexControl selectedVertex;
         public string Surname
         {
-            get { return SurName.Text; }
+            get 
+            { 
+
+                return SurName.Text; 
+            }
             set { SurName.Text = value; }
         }
         public string Firstname
@@ -108,6 +116,30 @@ namespace Session2.View
             set { Helper_.SelectedValue = value; }
         }
 
+        
+
+        public string this[string columnName] 
+        {
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case "Name":
+                        break;
+                
+                }
+                return error;
+            }
+        }
+
+        public string Error
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public PersonWindow(Employee emp, VertexControl vertex)
         {
@@ -163,20 +195,47 @@ namespace Session2.View
                 Button_Edit.Visibility = Visibility.Hidden;
             }
 
-            //var listAll = (from c in db.Calendars
-            //                where c.IdEmployee == emp.IdEmployee
-            //                select new
-            //                {
-            //                    DatesStudy = c.DateStart + " - " + c.DateFinish,
-            //                    EvName = db.Events.FirstOrDefault(p => p.IdEvent == c.IdEvent).EventName,
-            //                    DescriptionStudy = db.Events.FirstOrDefault(p => p.IdEvent == c.IdEvent).EventDescription,
-            //                }).ToList();
+            //вывод мероприятий
 
-            //foreach (var item in listAll)
-            //{
 
-            //}
-            var listStudy = (from c in db.Calendars
+            List<Calendar_> temp = db.Calendars.Where(p => p.IdEmployee == emp.IdEmployee).ToList();
+
+            List<Calendar_> listAll = new();
+            if (ActivateLast)
+            {
+                foreach (var item in temp)
+                {
+                    if (item.DateFinish < DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        listAll.Add(item);
+                    }
+                }
+            }
+            if (ActivatePresent)
+            {
+                foreach (var item in temp)
+                {
+                    if (item.DateStart == DateOnly.FromDateTime(DateTime.Now) || item.DateFinish == DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        listAll.Add(item);
+                    }
+                }
+            }
+            if (ActivateFuture)
+            {
+                foreach (var item in temp)
+                {
+                    if (item.DateStart > DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        listAll.Add(item);
+                    }
+                }
+            }
+
+            listAll.Sort();
+                             
+
+             var listStudy = (from c in listAll
                              where c.TypeOfEvent == "Обучение"
                              from e in db.Events
                              where e.IdEvent == c.IdEvent
@@ -184,21 +243,23 @@ namespace Session2.View
                              {
                                  Dates = c.DateStart + " - " + c.DateFinish,
                                  EvName = e.EventName,
-                                 DescriptionStudy = e.EventDescription,
+                                 DescriptionStudy = e.EventDescription
                              }).ToList();
-            var listSkip = (from c in db.Calendars
+            var listSkip = (from c in listAll
                             where c.TypeOfEvent == "Временное отсутствие"
                             select new
                              {
                                  Dates = c.DateStart + " - " + c.DateFinish,
-                             }).ToList();
-            var listVacation = (from c in db.Calendars
+                                 DescriptionStudy = c.TypeOfAbsense + " - замена: " +  db.Employees.FirstOrDefault( p => p.IdEmployee ==  c.IdAlternate ).Surname
+
+                            }).ToList();
+            var listVacation = (from c in listAll
                                 where c.TypeOfEvent == "Отпуск"
                                 select new
                             {
-                                Dates = c.DateStart + " - " + c.DateFinish,
-                                
-                            }).ToList();
+                                Dates = c.DateStart + " - " + c.DateFinish
+
+                             }).ToList();
             StudyList.Items.Clear();
             StudyList.ItemsSource = listStudy;
             SkipList.Items.Clear();
@@ -208,18 +269,100 @@ namespace Session2.View
         }
        
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //обновление списка мероприятий
+        private void UpdateEvents()
+        {
+            List<Calendar_> temp = db.Calendars.Where(p => p.IdEmployee == Employee.IdEmployee).ToList();
+
+            List<Calendar_> listAll = new();
+            if (ActivateLast)
+            {
+                foreach (var item in temp)
+                {
+                    if (item.DateFinish < DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        listAll.Add(item);
+                    }
+                }
+            }
+            if (ActivatePresent)
+            {
+                foreach (var item in temp)
+                {
+                    if (item.DateStart == DateOnly.FromDateTime(DateTime.Now) || item.DateFinish == DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        listAll.Add(item);
+                    }
+                }
+            }
+            if (ActivateFuture)
+            {
+                foreach (var item in temp)
+                {
+                    if (item.DateStart > DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        listAll.Add(item);
+                    }
+                }
+            }
+
+            listAll.Sort();
+
+
+            var listStudy = (from c in listAll
+                             where c.TypeOfEvent == "Обучение"
+                             from e in db.Events
+                             where e.IdEvent == c.IdEvent
+                             select new
+                             {
+                                 Dates = c.DateStart + " - " + c.DateFinish,
+                                 EvName = e.EventName,
+                                 DescriptionStudy = e.EventDescription
+                             }).ToList();
+            var listSkip = (from c in listAll
+                            where c.TypeOfEvent == "Временное отсутствие"
+                            select new
+                            {
+                                Dates = c.DateStart + " - " + c.DateFinish,
+                                DescriptionStudy = c.TypeOfAbsense + " - замена: " + db.Employees.FirstOrDefault(p => p.IdEmployee == c.IdAlternate).Surname
+
+                            }).ToList();
+            var listVacation = (from c in listAll
+                                where c.TypeOfEvent == "Отпуск"
+                                select new
+                                {
+                                    Dates = c.DateStart + " - " + c.DateFinish
+
+                                }).ToList();
+           
+            
+            StudyList.ItemsSource = listStudy;
+           
+            SkipList.ItemsSource = listSkip;
+            
+            VacationList.ItemsSource = listVacation;
+        
+        }
+
+
+
+
+
+        //кнопки ок/отмена редактирования формы
+        private void Button_Ok(object sender, RoutedEventArgs e)
         {
             if(IsEditEnabled) DialogResult=true;
             else DialogResult=false;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Cancel(object sender, RoutedEventArgs e)
         {
-            DialogResult =false;
+            DialogResult = false;
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+
+        //кнопка редактирования формы
+        private void Button_EditF(object sender, RoutedEventArgs e)
         {
 
             if (IsEditEnabled=!IsEditEnabled)
@@ -254,6 +397,85 @@ namespace Session2.View
             }
         }
 
-        
+
+
+        //кнопки-фильтры мероприятий
+        private void Button_Last(object sender, RoutedEventArgs e)
+        {
+            if (ActivateLast)
+            {
+                LastButton.Background = new SolidColorBrush(Colors.LightGreen);
+                ActivateLast = false;
+                UpdateEvents();
+            }
+            else
+            {
+                LastButton.Background = new SolidColorBrush(Colors.Green);
+                ActivateLast = true;
+                UpdateEvents();
+            }
+        }
+
+        private void Button_Present(object sender, RoutedEventArgs e)
+        {
+            if (ActivatePresent)
+            {
+                PresentButton.Background = new SolidColorBrush(Colors.LightGreen);
+                ActivatePresent = false;
+                UpdateEvents();
+            }
+            else
+            {
+                PresentButton.Background = new SolidColorBrush(Colors.Green);
+                ActivatePresent = true;
+                UpdateEvents();
+            }
+        }
+
+        private void Button_Future(object sender, RoutedEventArgs e)
+        {
+            if (ActivateFuture)
+            {
+                FutureButton.Background = new SolidColorBrush(Colors.LightGreen);
+                ActivateFuture = false;
+                UpdateEvents();
+            }
+            else
+            {
+                FutureButton.Background = new SolidColorBrush(Colors.Green);
+                ActivateFuture = true;
+                UpdateEvents();
+            }
+        }
+
+        private void Button_Fire(object sender, RoutedEventArgs e)
+        {
+            var list = from c in db.Calendars
+                       where c.IdEmployee == Employee.IdEmployee && c.TypeOfEvent == "Обучение"
+                       select c;
+            if (list.Count() == 0)
+            {
+                var result = MessageBox.Show(
+                "Вы уверены, что хотите уволить данного сотрудника?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+
+                );
+                if (result == MessageBoxResult.Yes)
+                {
+                    db.Calendars.Where(p => p.IdEmployee == Employee.IdEmployee).ExecuteDeleteAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                        "Вы не можете удалить данного сотрудника из-за запланированного обучения",
+                        "Подтверждение",
+                        MessageBoxButton.OKCancel
+                    );
+            }
+            
+        }
     }
 }

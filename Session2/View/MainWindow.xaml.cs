@@ -18,6 +18,12 @@ namespace Session2
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    public interface IDataErrorInfo
+    {
+        string Error { get;}
+        string this[string columnName] { get;}
+    }
     public partial class MainWindow : Window
     {
         public Graph Graph { get; set; }

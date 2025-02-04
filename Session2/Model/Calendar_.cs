@@ -33,7 +33,7 @@ public partial class Calendar_ : IComparable
         if (obj is Calendar_)
         {
             Calendar_ obj1 = obj as Calendar_;
-            return this.DateStart.CompareTo(obj1.DateStart);
+            return (this.DateStart.CompareTo(obj1.DateStart));
         }
         return 0;
     }

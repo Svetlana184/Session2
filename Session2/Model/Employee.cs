@@ -34,6 +34,7 @@ public partial class Employee : IComparable<Employee>
     public int? IdBoss { get; set; }
 
     public string? Password { get; set; }
+    public DateTime? IsFired { get; set; }
 
     public virtual ICollection<Calendar_> CalendarIdAlternateNavigations { get; set; } = new List<Calendar_>();
 

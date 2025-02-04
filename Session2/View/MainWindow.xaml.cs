@@ -153,6 +153,7 @@ namespace Session2
                 var emp = EmployerList.SelectedItem.GetType();
                 int id = (int)emp.GetProperty("Id")!.GetValue(EmployerList.SelectedItem, null)!;
                 Employee employee = db.Employees.FirstOrDefault(p => p.IdEmployee == id)!;
+                
                 PersonWindow personWindow = new(employee, SelectedVertex);
                 if (personWindow.ShowDialog() == true)
                 {

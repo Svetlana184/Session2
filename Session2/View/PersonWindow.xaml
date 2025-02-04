@@ -49,11 +49,15 @@
             <ListBox Width="900" x:Name="StudyList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900" Background="LightGray" Margin="5">
-                            <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding EvName}" FontSize="18"/>
-                            <Label Content="{Binding DescriptionStudy}"/>
-                        </StackPanel>
+                        <Expander Header="{Binding Dates}">
+                            <StackPanel Width="900" Background="LightGray" Margin="5">
+                                <Label Content="{Binding EvName}" FontSize="18"/>
+                                <Label Content="{Binding DescriptionStudy}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="перейти в режим редактирования"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Expander>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -61,10 +65,15 @@
             <ListBox Width="900" x:Name="SkipList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900" Background="LightGray" Margin="5">
-                            <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding DescriptionStudy}"/>
-                        </StackPanel>
+                        <Expander Header="{Binding Dates}">
+                            <StackPanel Width="900" Background="LightGray" Margin="5">
+                                <Label Content="{Binding TypeOfAbsence_}"/>
+                                <Label Content="{Binding Alternate_}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="перейти в режим редактирования"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Expander>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -75,14 +84,26 @@
                         <StackPanel Width="900" Background="LightGray" Margin="5">
                             <Label Content="{Binding Dates}"/>
                             <Label Content="{Binding DescriptionStudy}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="перейти в режим редактирования"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Label Content="Добавить мероприятие" FontSize="20"/>
+            <ListBox  Width="900" x:Name="AddList" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="900" Background="LightGray" Margin="5">
+                            <Label Content="{Binding Dates}"/>
+                            <Label Content="{Binding DescriptionStudy}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </ListView>
-        <StackPanel Grid.Column="1" Grid.Row="2">
-            <Button Content="+" Width="50" HorizontalAlignment="Right" Margin="5" Height="30" ToolTip="Добавить событие"/>
-        </StackPanel>
+        
     </Grid>
    
 </Window>

@@ -105,7 +105,7 @@ namespace Session2.View
                             Fio = empl.Surname + " " + empl.FirstName + " " + empl.SecondName,
                             Contacts = empl.PhoneWork + " " + empl.Email,
                             Cabinet = empl.Cabinet,
-                            Id = empl.IdEmployee
+                            Id = empl.IdEmployee,
                         }).ToList();
 
             ParentWindow.EmployerList.ItemsSource = list;

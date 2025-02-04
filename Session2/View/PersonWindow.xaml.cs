@@ -196,76 +196,7 @@ namespace Session2.View
             }
 
             //вывод мероприятий
-
-
-            List<Calendar_> temp = db.Calendars.Where(p => p.IdEmployee == emp.IdEmployee).ToList();
-
-            List<Calendar_> listAll = new();
-            if (ActivateLast)
-            {
-                foreach (var item in temp)
-                {
-                    if (item.DateFinish < DateOnly.FromDateTime(DateTime.Now))
-                    {
-                        listAll.Add(item);
-                    }
-                }
-            }
-            if (ActivatePresent)
-            {
-                foreach (var item in temp)
-                {
-                    if (item.DateStart == DateOnly.FromDateTime(DateTime.Now) || item.DateFinish == DateOnly.FromDateTime(DateTime.Now))
-                    {
-                        listAll.Add(item);
-                    }
-                }
-            }
-            if (ActivateFuture)
-            {
-                foreach (var item in temp)
-                {
-                    if (item.DateStart > DateOnly.FromDateTime(DateTime.Now))
-                    {
-                        listAll.Add(item);
-                    }
-                }
-            }
-
-            listAll.Sort();
-                             
-
-             var listStudy = (from c in listAll
-                             where c.TypeOfEvent == "Обучение"
-                             from e in db.Events
-                             where e.IdEvent == c.IdEvent
-                             select new
-                             {
-                                 Dates = c.DateStart + " - " + c.DateFinish,
-                                 EvName = e.EventName,
-                                 DescriptionStudy = e.EventDescription
-                             }).ToList();
-            var listSkip = (from c in listAll
-                            where c.TypeOfEvent == "Временное отсутствие"
-                            select new
-                             {
-                                 Dates = c.DateStart + " - " + c.DateFinish,
-                                 DescriptionStudy = c.TypeOfAbsense + " - замена: " +  db.Employees.FirstOrDefault( p => p.IdEmployee ==  c.IdAlternate ).Surname
-
-                            }).ToList();
-            var listVacation = (from c in listAll
-                                where c.TypeOfEvent == "Отпуск"
-                                select new
-                            {
-                                Dates = c.DateStart + " - " + c.DateFinish
-
-                             }).ToList();
-            StudyList.Items.Clear();
-            StudyList.ItemsSource = listStudy;
-            SkipList.Items.Clear();
-            SkipList.ItemsSource = listSkip;
-            VacationList.Items.Clear();
-            VacationList.ItemsSource = listVacation;
+            UpdateEvents();
         }
        
 
@@ -324,7 +255,9 @@ namespace Session2.View
                             select new
                             {
                                 Dates = c.DateStart + " - " + c.DateFinish,
-                                DescriptionStudy = c.TypeOfAbsense + " - замена: " + db.Employees.FirstOrDefault(p => p.IdEmployee == c.IdAlternate).Surname
+                                TypeOfAbsence_ = c.TypeOfAbsense,
+                                Alternate_ = "Замена: " + db.Employees.FirstOrDefault(p => p.IdEmployee == c.IdAlternate).Surname +
+                                 " " + db.Employees.FirstOrDefault(p => p.IdEmployee == c.IdAlternate).FirstName 
 
                             }).ToList();
             var listVacation = (from c in listAll
@@ -470,7 +403,7 @@ namespace Session2.View
             else
             {
                 MessageBox.Show(
-                        "Вы не можете удалить данного сотрудника из-за запланированного обучения",
+                        "Вы не можете уволить данного сотрудника из-за запланированного обучения",
                         "Подтверждение",
                         MessageBoxButton.OKCancel
                     );

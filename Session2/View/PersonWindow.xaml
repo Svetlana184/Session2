@@ -70,7 +70,7 @@
                                 <Label Content="{Binding TypeOfAbsence_}"/>
                                 <Label Content="{Binding Alternate_}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Background="DarkRed" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие"/>
+                                    <Button x:Name="Button_DeleteEvent" Background="DarkRed" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие"/>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>
@@ -95,9 +95,9 @@
             <ListBox  Width="900" x:Name="AddList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900" Background="LightGray" Margin="5">
-                            <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding DescriptionStudy}"/>
+                        <StackPanel Width="900" Background="LightGray" Margin="5" Height="200">
+                            <TextBox Text="{Binding Dates}"/>
+                            <TextBox Text="{Binding DescriptionStudy}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

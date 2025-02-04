@@ -188,6 +188,8 @@ namespace Session2.View
                 Helper_.IsEnabled = false;
                 Boss_.IsEnabled = false;
                 IsEditEnabled = false;
+                Department_.IsEnabled = false;
+
             }
             else
             {
@@ -312,6 +314,7 @@ namespace Session2.View
                 BirthDay_.IsEnabled = true;
                 Helper_.IsEnabled = true;
                 Boss_.IsEnabled = true;
+                Department_.IsEnabled = true;
             }
             else
             {
@@ -327,6 +330,7 @@ namespace Session2.View
                 BirthDay_.IsEnabled = false;
                 Helper_.IsEnabled = false;
                 Boss_.IsEnabled = false;
+                Department_.IsEnabled = false;
             }
         }
 

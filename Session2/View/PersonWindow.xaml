@@ -54,7 +54,7 @@
                                 <Label Content="{Binding EvName}" FontSize="18"/>
                                 <Label Content="{Binding DescriptionStudy}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="перейти в режим редактирования"/>
+                                    <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="перейти в режим редактирования"/>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>
@@ -70,7 +70,7 @@
                                 <Label Content="{Binding TypeOfAbsence_}"/>
                                 <Label Content="{Binding Alternate_}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="перейти в режим редактирования"/>
+                                    <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="перейти в режим редактирования"/>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>
@@ -85,7 +85,7 @@
                             <Label Content="{Binding Dates}"/>
                             <Label Content="{Binding DescriptionStudy}"/>
                             <StackPanel Orientation="Horizontal">
-                                <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="перейти в режим редактирования"/>
+                                <Button Background="DarkGray" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="перейти в режим редактирования"/>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>

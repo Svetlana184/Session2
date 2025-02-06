@@ -19,16 +19,15 @@ namespace Session2
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public interface IDataErrorInfo
-    {
-        string Error { get;}
-        string this[string columnName] { get;}
-    }
+    
     public partial class MainWindow : Window
     {
         public Graph Graph { get; set; }
         private RoadOfRussiaContext db;
         private VertexControl SelectedVertex { get; set; }
+
+       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -97,10 +96,11 @@ namespace Session2
                                 Fio = empl.Surname + " " + empl.FirstName + " " + empl.SecondName,
                                 Contacts = empl.PhoneWork + " " + empl.Email,
                                 Cabinet = empl.Cabinet,
-                                Id = empl.IdEmployee,
-                                IsFired = empl.IsFired
+                                Id = empl.IdEmployee
                             }).ToList();
 
+                
+                
 
                 EmployerList.ItemsSource = list;
                 

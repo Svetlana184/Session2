@@ -5,6 +5,8 @@ namespace Session2.Model;
 
 public partial class Employee : IComparable<Employee>
 {
+    
+
     public int IdEmployee { get; set; }
 
     public string Surname { get; set; } = null!;
@@ -34,7 +36,6 @@ public partial class Employee : IComparable<Employee>
     public int? IdBoss { get; set; }
 
     public string? Password { get; set; }
-    public DateTime? IsFired { get; set; }
 
     public virtual ICollection<Calendar_> CalendarIdAlternateNavigations { get; set; } = new List<Calendar_>();
 
@@ -45,6 +46,7 @@ public partial class Employee : IComparable<Employee>
     public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
 
     public virtual Department IdDepartmentNavigation { get; set; } = null!;
+
 
     public int CompareTo(Employee? other)
     {

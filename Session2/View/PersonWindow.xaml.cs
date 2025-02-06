@@ -25,15 +25,17 @@ namespace Session2.View
         private RoadOfRussiaContext db;
         private bool IsEditEnabled = false;
         public Employee Employee { get; set; }
+        public Calendar_ Calendar { get; set; }
         private bool ActivateLast = false;
         private bool ActivatePresent = true;
         private bool ActivateFuture = true;
         private VertexControl selectedVertex;
+
+        //поля для карточки сотрудника
         public string Surname
         {
             get 
-            { 
-
+            {
                 return SurName.Text; 
             }
             set { SurName.Text = value; }
@@ -80,6 +82,7 @@ namespace Session2.View
             set { Other_.Text = value; }
         }
 
+
         public DateOnly? BirthDay
         {
             get 
@@ -125,7 +128,11 @@ namespace Session2.View
                 string error = String.Empty;
                 switch (columnName)
                 {
-                    case "Name":
+                    case "Cabinet":
+                        if (Cabinet_.Text.Length > 10)
+                        {
+                            error = "Номер кабинета не больше 10 символов";
+                        }
                         break;
                 
                 }
@@ -159,6 +166,13 @@ namespace Session2.View
                 Boss_.SelectedValuePath = "IdEmployee";
                 Boss_.DisplayMemberPath = "Surname";
                 Boss_.ItemsSource = list;
+
+
+                IdAlternate_.ItemsSource = list;
+                IdAlternate_.SelectedValuePath = "IdEmployee";
+                IdAlternate_.DisplayMemberPath = "Surname";
+               
+
             }
             if (emp.IdEmployee != 0)
             {
@@ -191,6 +205,7 @@ namespace Session2.View
                 Department_.IsEnabled = false;
 
             }
+
             else
             {
                 IsEditEnabled = true;
@@ -282,8 +297,22 @@ namespace Session2.View
         
         }
 
+        //добавление мероприятий в календаре сотрудника
 
-
+        private void Button_EventSave(object sender, RoutedEventArgs e)
+        {
+            Calendar_ calendar_ = new Calendar_
+            {
+                TypeOfEvent = TypeOfEvent_.Text,
+                IdEvent = db.Events.FirstOrDefault(p => p.EventName == NameOfStudy_.Text)!.IdEvent,
+                DateStart = DateOnly.FromDateTime((DateTime)DateStart_.SelectedDate),
+                DateFinish = DateOnly.FromDateTime((DateTime)DateFinish_.SelectedDate),
+                IdAlternate = db.Employees.FirstOrDefault(p => p.Surname == IdAlternate_.Text)!.IdEmployee,
+                TypeOfAbsense = Description_.Text
+            };
+            db.Calendars.Add(calendar_);
+            db.SaveChanges();
+        }
 
 
         //кнопки ок/отмена редактирования формы
@@ -407,6 +436,11 @@ namespace Session2.View
                 if (result == MessageBoxResult.Yes)
                 {
                     db.Calendars.Where(p => p.IdEmployee == Employee.IdEmployee).ExecuteDeleteAsync();
+                    EmployeeFired employeeFired = new EmployeeFired() 
+                    {
+                        IdEmployeeFired = Employee.IdEmployee,
+                        DateFired = DateTime.Now,
+                    };
                 }
             }
             else
@@ -432,11 +466,7 @@ namespace Session2.View
                 );
             if (result == MessageBoxResult.Yes)
             {
-                var ev = StudyList.SelectedItem.GetType();
-                int id = (int)ev.GetProperty("Id")!.GetValue(StudyList.SelectedItem, null)!;
-                var list = StudyList.SelectedIndex;
-                var x = 1;
-                //db.Calendars.FirstOrDefault(p => p.IdCalendar == EventList.SelectedItem.Id)
+                
             }
         }
         private void Button_DelSkip(object sender, RoutedEventArgs e)
@@ -449,9 +479,7 @@ namespace Session2.View
                 );
             if (result == MessageBoxResult.Yes)
             {
-                var list = SkipList.SelectedItem;
-                var x = 1;
-                //db.Calendars.FirstOrDefault(p => p.IdCalendar == EventList.SelectedItem.Id)
+                
             }
         }
         private void Button_DelVac(object sender, RoutedEventArgs e)
@@ -464,10 +492,32 @@ namespace Session2.View
                 );
             if (result == MessageBoxResult.Yes)
             {
-                var list = VacationList.SelectedItem.GetType();
-                var x = 1;
-                //db.Calendars.FirstOrDefault(p => p.IdCalendar == EventList.SelectedItem.Id)
+                
             }
+        }
+
+        
+
+        private void Name_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key == Key.Space || e.Key == Key.OemQuotes || e.Key == Key.OemSemicolon) return;
+            e.Handled=true;
+        }
+        private void Cabinet_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key >= Key.A && e.Key <= Key.Z || e.Key == Key.Space || e.Key >= Key.D0 && e.Key <= Key.D9)) return;
+            e.Handled = true;
+        }
+        private void Phone_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+            if (e.Key == Key.Space || e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 &&  e.Key <= Key.NumPad9 || e.Key == Key.OemPlus  || e.Key == Key.OemMinus) return;
+            e.Handled = true;
+        }
+        private void Email_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key == Key.Space || e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) return;
+            e.Handled = true;
         }
     }
 }

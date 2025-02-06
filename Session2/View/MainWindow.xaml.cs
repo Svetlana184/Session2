@@ -97,10 +97,14 @@ namespace Session2
                                 Fio = empl.Surname + " " + empl.FirstName + " " + empl.SecondName,
                                 Contacts = empl.PhoneWork + " " + empl.Email,
                                 Cabinet = empl.Cabinet,
-                                Id = empl.IdEmployee
+                                Id = empl.IdEmployee,
+                                IsFired = empl.IsFired
                             }).ToList();
 
+
                 EmployerList.ItemsSource = list;
+                
+                
 
             }
         }

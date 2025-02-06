@@ -248,6 +248,7 @@ namespace Session2.View
                              where e.IdEvent == c.IdEvent
                              select new
                              {
+                                 Id = c.IdCalendar,
                                  Dates = c.DateStart + " - " + c.DateFinish,
                                  EvName = e.EventName,
                                  DescriptionStudy = e.EventDescription
@@ -256,6 +257,7 @@ namespace Session2.View
                             where c.TypeOfEvent == "Временное отсутствие"
                             select new
                             {
+                                Id = c.IdCalendar,
                                 Dates = c.DateStart + " - " + c.DateFinish,
                                 TypeOfAbsence_ = c.TypeOfAbsense,
                                 Alternate_ = "Замена: " + db.Employees.FirstOrDefault(p => p.IdEmployee == c.IdAlternate).Surname +
@@ -266,6 +268,7 @@ namespace Session2.View
                                 where c.TypeOfEvent == "Отпуск"
                                 select new
                                 {
+                                    Id = c.IdCalendar,
                                     Dates = c.DateStart + " - " + c.DateFinish
 
                                 }).ToList();
@@ -385,6 +388,8 @@ namespace Session2.View
             }
         }
 
+
+        //кнопка увольнения сотрудника
         private void Button_Fire(object sender, RoutedEventArgs e)
         {
             var list = from c in db.Calendars
@@ -413,6 +418,56 @@ namespace Session2.View
                     );
             }
             
+        }
+
+
+        //кнопка удаления мероприятия
+        private void Button_DelEvent(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Вы уверены, что хотите удалить данную запись?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+                );
+            if (result == MessageBoxResult.Yes)
+            {
+                var ev = StudyList.SelectedItem.GetType();
+                int id = (int)ev.GetProperty("Id")!.GetValue(StudyList.SelectedItem, null)!;
+                var list = StudyList.SelectedIndex;
+                var x = 1;
+                //db.Calendars.FirstOrDefault(p => p.IdCalendar == EventList.SelectedItem.Id)
+            }
+        }
+        private void Button_DelSkip(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Вы уверены, что хотите удалить данную запись?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+                );
+            if (result == MessageBoxResult.Yes)
+            {
+                var list = SkipList.SelectedItem;
+                var x = 1;
+                //db.Calendars.FirstOrDefault(p => p.IdCalendar == EventList.SelectedItem.Id)
+            }
+        }
+        private void Button_DelVac(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Вы уверены, что хотите удалить данную запись?",
+                "Подтверждение",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+                );
+            if (result == MessageBoxResult.Yes)
+            {
+                var list = VacationList.SelectedItem.GetType();
+                var x = 1;
+                //db.Calendars.FirstOrDefault(p => p.IdCalendar == EventList.SelectedItem.Id)
+            }
         }
     }
 }

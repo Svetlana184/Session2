@@ -44,20 +44,20 @@
             <Button x:Name="PresentButton" Content="Текущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0" Click="Button_Present"/>
             <Button x:Name="FutureButton" Content="Будущие" Height="25" Width="90" Background="Green" FontSize="9" Foreground="White" Margin="15 0" Click="Button_Future"/>
         </StackPanel>
-        <ListView Grid.Column="1" Grid.Row="1">
+        <ListView x:Name="EventList" Grid.Column="1" Grid.Row="1">
             <Label Content="Обучения" FontSize="20"/>
             <ListBox Width="900" x:Name="StudyList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Expander Header="{Binding Dates}">
+                        
                             <StackPanel Width="900" Background="LightGray" Margin="5">
                                 <Label Content="{Binding EvName}" FontSize="18"/>
                                 <Label Content="{Binding DescriptionStudy}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Background="DarkRed" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие"/>
+                                    <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelEvent"/>
                                 </StackPanel>
                             </StackPanel>
-                        </Expander>
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -70,7 +70,7 @@
                                 <Label Content="{Binding TypeOfAbsence_}"/>
                                 <Label Content="{Binding Alternate_}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="Button_DeleteEvent" Background="DarkRed" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие"/>
+                                    <Button x:Name="Button_DeleteEvent" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelSkip"/>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>
@@ -81,27 +81,34 @@
             <ListBox  Width="900" x:Name="VacationList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900" Background="LightGray" Margin="5">
-                            <Label Content="{Binding Dates}"/>
-                            <Label Content="{Binding DescriptionStudy}"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Background="DarkRed" Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие"/>
+                        <Expander Header="{Binding Dates}">
+                            <StackPanel Width="900" Background="LightGray" Margin="5">
+                                <Label Content="{Binding DescriptionStudy}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelVac"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
+                        </Expander>
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <Label Content="Добавить мероприятие" FontSize="20"/>
-            <ListBox  Width="900" x:Name="AddList" >
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Width="900" Background="LightGray" Margin="5" Height="200">
-                            <TextBox Text="{Binding Dates}"/>
-                            <TextBox Text="{Binding DescriptionStudy}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <Expander>
+                <StackPanel Width="630" Height="230">
+                    <ComboBox x:Name="TypeOfEvent" materialDesign:HintAssist.Hint="Type of event"/>
+                    <ComboBox x:Name="NameOfStudy" materialDesign:HintAssist.Hint="Name of study"/>
+                    <DatePicker x:Name="DateStart" IsDropDownOpen="True" SelectedDateFormat="Short" materialDesign:HintAssist.Hint="Date start"/>
+                    <DatePicker x:Name="DateFinish" IsDropDownOpen="True" SelectedDateFormat="Short" materialDesign:HintAssist.Hint="Date finish"/>
+                    <ComboBox x:Name="IdAlternate" materialDesign:HintAssist.Hint="Alternate"/>
+                    <TextBox Height="50" x:Name="Description" materialDesign:HintAssist.Hint="Short Description"/>
+                    <StackPanel Orientation="Horizontal" Width="630" >
+                        <Button Content="Отмена" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                        <Button Content="Ок" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </Expander>
+            
         </ListView>
         
     </Grid>

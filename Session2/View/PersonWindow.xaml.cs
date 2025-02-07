@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
+
 using Session2.Model;
 
 namespace Session2.View
@@ -20,17 +24,19 @@ namespace Session2.View
     /// <summary>
     /// Логика взаимодействия для PersonWindow.xaml
     /// </summary>
-    public partial class PersonWindow : Window, IDataErrorInfo
+    /// 
+    public partial class PersonWindow : Window
     {
         private RoadOfRussiaContext db;
         private bool IsEditEnabled = false;
         public Employee Employee { get; set; }
-        public Calendar_ Calendar { get; set; }
+        public Calendar_ Calendar_ { get; set; }
         private bool ActivateLast = false;
         private bool ActivatePresent = true;
         private bool ActivateFuture = true;
         private VertexControl selectedVertex;
-
+        private string name;
+        
         //поля для карточки сотрудника
         public string Surname
         {
@@ -38,7 +44,11 @@ namespace Session2.View
             {
                 return SurName.Text; 
             }
-            set { SurName.Text = value; }
+            set 
+            { 
+                SurName.Text = value;
+                
+            }
         }
         public string Firstname
         {
@@ -119,34 +129,70 @@ namespace Session2.View
             set { Helper_.SelectedValue = value; }
         }
 
-        
 
-        public string this[string columnName] 
+        public string TypeOfEvent
+        {
+            get { return TypeOfEvent_.Text;}
+            set { TypeOfEvent_.Text = value;}
+        }
+        public int? NameOfStudy
         {
             get
             {
-                string error = String.Empty;
-                switch (columnName)
+                if (NameOfStudy_.SelectedValue != null) return (int)NameOfStudy_.SelectedValue;
+                else return null;
+            }
+            set {NameOfStudy_.SelectedValue = value; }
+        }
+        public string Description
+        {
+            get { return Description_.Text; }
+            set { Description_.Text = value; }
+        }
+        public int? IdAlternate
+        {
+            get
+            {
+                if (IdAlternate_.SelectedValue != null) return (int)IdAlternate_.SelectedValue;
+                else return null;
+            }
+            set { IdAlternate_.SelectedValue = value; }
+        }
+        public DateOnly DateStart
+        {
+            get
+            {
+                if (DateStart_.SelectedDate != null)
                 {
-                    case "Cabinet":
-                        if (Cabinet_.Text.Length > 10)
-                        {
-                            error = "Номер кабинета не больше 10 символов";
-                        }
-                        break;
-                
+                    return DateOnly.FromDateTime((DateTime)DateStart_.SelectedDate);
                 }
-                return error;
+                else return new DateOnly();
+
+            }
+            set
+            {
+                DateStart_.SelectedDate = DateTime.Parse(value.ToString());
             }
         }
-
-        public string Error
+        public DateOnly DateFinish
         {
             get
             {
-                throw new NotImplementedException();
+                if (DateFinish_.SelectedDate != null)
+                {
+                    return DateOnly.FromDateTime((DateTime)DateFinish_.SelectedDate);
+                }
+                else return new DateOnly();
+
+            }
+            set
+            {
+                DateFinish_.SelectedDate = DateTime.Parse(value.ToString());
             }
         }
+
+
+        
 
         public PersonWindow(Employee emp, VertexControl vertex)
         {
@@ -157,7 +203,7 @@ namespace Session2.View
             if (vertex != null) {
                 selectedVertex = vertex;
                 Department_.Text = selectedVertex.NameDepartment;
-                List<Employee> list = db.Employees.Where(p => p.IdDepartment == selectedVertex!.Department).ToList();
+                List<Employee> list = db.Employees.Where(p => p.IdDepartment == selectedVertex!.Department && p.IdEmployee != emp.IdEmployee).ToList();
 
                 Helper_.ItemsSource = list;
                 Helper_.SelectedValuePath = "IdEmployee";
@@ -168,10 +214,16 @@ namespace Session2.View
                 Boss_.ItemsSource = list;
 
 
+                List<string> strings = new List<string>() {"Обучение", "Временное отсутствие", "Отпуск"};
+                List<Event> events = db.Events.Where(p => p.DateOfEvent >= DateTime.Now).ToList();
+
+                TypeOfEvent_.ItemsSource = strings;
                 IdAlternate_.ItemsSource = list;
                 IdAlternate_.SelectedValuePath = "IdEmployee";
                 IdAlternate_.DisplayMemberPath = "Surname";
-               
+                NameOfStudy_.ItemsSource = events;
+                NameOfStudy_.SelectedValuePath = "IdEvent";
+                NameOfStudy_.DisplayMemberPath = "EventName";
 
             }
             if (emp.IdEmployee != 0)
@@ -294,6 +346,7 @@ namespace Session2.View
             SkipList.ItemsSource = listSkip;
             
             VacationList.ItemsSource = listVacation;
+
         
         }
 
@@ -303,18 +356,35 @@ namespace Session2.View
         {
             Calendar_ calendar_ = new Calendar_
             {
-                TypeOfEvent = TypeOfEvent_.Text,
-                IdEvent = db.Events.FirstOrDefault(p => p.EventName == NameOfStudy_.Text)!.IdEvent,
-                DateStart = DateOnly.FromDateTime((DateTime)DateStart_.SelectedDate),
-                DateFinish = DateOnly.FromDateTime((DateTime)DateFinish_.SelectedDate),
-                IdAlternate = db.Employees.FirstOrDefault(p => p.Surname == IdAlternate_.Text)!.IdEmployee,
-                TypeOfAbsense = Description_.Text
+                IdEmployee = Employee.IdEmployee,
+                TypeOfEvent = TypeOfEvent,
+                IdEvent = NameOfStudy,
+                DateStart = DateStart,
+                DateFinish = DateStart,
+                IdAlternate = IdAlternate,
+                TypeOfAbsense = Description
             };
             db.Calendars.Add(calendar_);
             db.SaveChanges();
+            UpdateEvents();
+            ClearAddEv(); 
+        }
+
+        private void Button_EventNotSave(object sender, RoutedEventArgs e)
+        {
+            ClearAddEv();
         }
 
 
+        private void ClearAddEv()
+        {
+            TypeOfEvent_.Text = "";
+            NameOfStudy_.Text = "";
+            IdAlternate_.Text = "";
+            Description_.Text = "";
+            DateFinish_.Text = "";
+            DateStart_.Text = "";
+        }
         //кнопки ок/отмена редактирования формы
         private void Button_Ok(object sender, RoutedEventArgs e)
         {
@@ -435,12 +505,13 @@ namespace Session2.View
                 );
                 if (result == MessageBoxResult.Yes)
                 {
-                    db.Calendars.Where(p => p.IdEmployee == Employee.IdEmployee).ExecuteDeleteAsync();
-                    EmployeeFired employeeFired = new EmployeeFired() 
-                    {
-                        IdEmployeeFired = Employee.IdEmployee,
-                        DateFired = DateTime.Now,
-                    };
+                    
+                    
+                    Employee emp = db.Employees.FirstOrDefault(p => p.IdEmployee == Employee.IdEmployee)!;
+                    emp.IsFired = DateTime.Now;
+                    db.Employees.Update(emp);
+                    db.Calendars.Where(p => p.IdEmployee == emp.IdEmployee).ExecuteDeleteAsync();
+                    db.SaveChanges();
                 }
             }
             else
@@ -469,6 +540,7 @@ namespace Session2.View
                 
             }
         }
+        
         private void Button_DelSkip(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show(
@@ -479,6 +551,8 @@ namespace Session2.View
                 );
             if (result == MessageBoxResult.Yes)
             {
+                var x = StudyList.SelectedItem;
+                var y = 1;
                 
             }
         }
@@ -496,12 +570,12 @@ namespace Session2.View
             }
         }
 
-        
+
 
         private void Name_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key == Key.Space || e.Key == Key.OemQuotes || e.Key == Key.OemSemicolon) return;
-            e.Handled=true;
+            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key == Key.Space || e.Key == Key.OemQuotes || e.Key == Key.OemSemicolon || e.Key == Key.OemCloseBrackets || e.Key == Key.OemTilde || e.Key == Key.OemOpenBrackets || e.Key == Key.OemPeriod || e.Key == Key.OemComma) return;
+            e.Handled = true;
         }
         private void Cabinet_KeyDown(object sender, KeyEventArgs e)
         {
@@ -516,7 +590,7 @@ namespace Session2.View
         }
         private void Email_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key == Key.Space || e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) return;
+            if (e.Key >= Key.A && e.Key <= Key.Z || e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) return;
             e.Handled = true;
         }
     }

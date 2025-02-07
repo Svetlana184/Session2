@@ -104,7 +104,6 @@ namespace Session2
 
                 EmployerList.ItemsSource = list;
                 
-                
 
             }
         }

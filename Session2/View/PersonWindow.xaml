@@ -6,33 +6,13 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:materialIcons ="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:local="clr-namespace:Session2"
-        xmlns:validation="clr-namespace:Session2.DataValidation"
         mc:Ignorable="d"
         Title="PersonWindow" Height="590" Width="800">
-    <Window.Resources>
-        <validation:NameValidationRule x:Key="nameValidation"/>
-        <ControlTemplate x:Key="ErrorTemplate">
-            <DockPanel>
-                <Border BorderBrush="Red" BorderThickness="1" >
-                    <AdornedElementPlaceholder/>
-                </Border>
-                <TextBlock Foreground="Red" FontSize="20" Text="!" />
-            </DockPanel>
-        </ControlTemplate>
-        <Style x:Key="InputControlErrors" TargetType="{x:Type TextBox}">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip"    
-              Value="{Binding RelativeSource={x:Static RelativeSource.Self},    
-                              Path=(Validation.Errors)[0].ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
+  
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.75*"/>
@@ -42,19 +22,18 @@
         <Button  x:Name="Button_Edit" Width="50" HorizontalAlignment="Right" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Pencil}" ToolTip="Перейти в режим редактирования" Click="Button_EditF"/>
         <Button x:Name="ButtonFire" Width="100" HorizontalAlignment="Left" Height="25" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Fire}" ToolTip="Удалить сотрудника" Click="Button_Fire"/>
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <TextBox x:Name="SurName" Margin="10  5" materialDesign:HintAssist.Hint="Surname" KeyDown="Name_KeyDown"/>
-            <TextBox x:Name="FirstName" Margin="10  5" materialDesign:HintAssist.Hint="First Name" KeyDown="Name_KeyDown"/>
-            <TextBox x:Name="SecondName" Margin="10  5" materialDesign:HintAssist.Hint="Second Name" KeyDown="Name_KeyDown"/>
-            <TextBox x:Name="Position_" Margin="10  5" materialDesign:HintAssist.Hint="Position" KeyDown="Name_KeyDown"/>
+            <TextBox x:Name="SurName" Margin="10  5" materialDesign:HintAssist.Hint="Surname" KeyDown=" Name_KeyDown">
+            </TextBox>
+            <TextBox x:Name="FirstName" Margin="10  5" materialDesign:HintAssist.Hint="First Name" KeyDown=" Name_KeyDown"/>
+            <TextBox x:Name="SecondName" Margin="10  5" materialDesign:HintAssist.Hint="Second Name" KeyDown=" Name_KeyDown"/>
+            <TextBox x:Name="Position_" Margin="10  5" materialDesign:HintAssist.Hint="Position" KeyDown=" Name_KeyDown"/>
             <TextBox x:Name="Phonework_" Margin="10  5" materialDesign:HintAssist.Hint="Work Phone" KeyDown="Phone_KeyDown"/>
             <TextBox x:Name="Phone_"  Margin="10  5" materialDesign:HintAssist.Hint="Phone" KeyDown="Phone_KeyDown"/>
-            <TextBox x:Name="Cabinet_" Margin="10  5" materialDesign:HintAssist.Hint="Cabinet" KeyDown ="Cabinet_KeyDown" >
-
-            </TextBox>
+            <TextBox x:Name="Cabinet_" Margin="10  5" materialDesign:HintAssist.Hint="Cabinet" KeyDown ="Cabinet_KeyDown" />
             <TextBox x:Name="Email_" Margin="10  5" materialDesign:HintAssist.Hint="E-mail" KeyDown ="Email_KeyDown"/>
-            <TextBox x:Name="Department_" Margin="10  5" materialDesign:HintAssist.Hint="Department" KeyDown="Name_KeyDown"/>
-            <ComboBox x:Name="Boss_" Margin="10 5" materialDesign:HintAssist.Hint="Boss"  IsEditable="True" KeyDown="Name_KeyDown"/>
-            <ComboBox x:Name="Helper_" Margin="10 5" materialDesign:HintAssist.Hint="Helper"  IsEditable="True" KeyDown="Name_KeyDown"/>
+            <TextBox x:Name="Department_" Margin="10  5" materialDesign:HintAssist.Hint="Department" KeyDown=" Name_KeyDown"/>
+            <ComboBox x:Name="Boss_" Margin="10 5" materialDesign:HintAssist.Hint="Boss"  IsEditable="True"/>
+            <ComboBox x:Name="Helper_" Margin="10 5" materialDesign:HintAssist.Hint="Helper"  IsEditable="True"/>
             <DatePicker x:Name="BirthDay_" IsDropDownOpen="True" SelectedDateFormat="Short" Margin="10 5" materialDesign:HintAssist.Hint="Birth Day"/>
             <TextBox x:Name="Other_" Margin="10 5" Height="40" materialDesign:HintAssist.Hint="Other"/>
         </StackPanel>
@@ -68,27 +47,28 @@
         </StackPanel>
         <ListView x:Name="EventList" Grid.Column="1" Grid.Row="1">
             <Label Content="Обучения" FontSize="20"/>
-            <ListBox Width="900" x:Name="StudyList" >
+            <ListBox  x:Name="StudyList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        
-                            <StackPanel Width="900" Background="LightGray" Margin="5">
+                        <Expander Header="{Binding Dates}">
+                            <StackPanel  Background="LightGray" Margin="5">
                                 <Label Content="{Binding EvName}" FontSize="18"/>
                                 <Label Content="{Binding DescriptionStudy}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelEvent"/>
                                 </StackPanel>
                             </StackPanel>
-                        
+                        </Expander>
+                           
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <Label Content="Временное отсутствие" FontSize="20"/>
-            <ListBox Width="900" x:Name="SkipList" >
+            <ListBox x:Name="SkipList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Expander Header="{Binding Dates}">
-                            <StackPanel Width="900" Background="LightGray" Margin="5">
+                            <StackPanel Background="LightGray" Margin="5">
                                 <Label Content="{Binding TypeOfAbsence_}"/>
                                 <Label Content="{Binding Alternate_}"/>
                                 <StackPanel Orientation="Horizontal">
@@ -100,11 +80,11 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <Label Content="Отпуск" FontSize="20"/>
-            <ListBox  Width="900" x:Name="VacationList" >
+            <ListBox  x:Name="VacationList" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Expander Header="{Binding Dates}">
-                            <StackPanel Width="900" Background="LightGray" Margin="5">
+                            <StackPanel Background="LightGray" Margin="5">
                                 <Label Content="{Binding DescriptionStudy}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelVac"/>
@@ -116,8 +96,8 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <Label Content="Добавить мероприятие" FontSize="20"/>
-            <Expander>
-                <StackPanel Width="630" Height="230">
+            <Expander x:Name="AddEx">
+                <StackPanel Height="230" x:Name="AddEvent">
                     <ComboBox x:Name="TypeOfEvent_" materialDesign:HintAssist.Hint="Type of event"/>
                     <ComboBox x:Name="NameOfStudy_" materialDesign:HintAssist.Hint="Name of study"/>
                     <DatePicker x:Name="DateStart_" IsDropDownOpen="True" SelectedDateFormat="Short" materialDesign:HintAssist.Hint="Date start"/>
@@ -125,7 +105,7 @@
                     <ComboBox x:Name="IdAlternate_" materialDesign:HintAssist.Hint="Alternate"/>
                     <TextBox Height="50" x:Name="Description_" materialDesign:HintAssist.Hint="Short Description"/>
                     <StackPanel Orientation="Horizontal" Width="630" >
-                        <Button Content="Отмена" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                        <Button Content="Отмена" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Click="Button_EventNotSave"/>
                         <Button Content="Ок" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Click="Button_EventSave"/>
                     </StackPanel>
                 </StackPanel>

@@ -30,7 +30,6 @@ namespace Session2.View
         public MainWindow ParentWindow { get; set; }
         public bool IsActive { get; set; }
 
-
         private RoadOfRussiaContext db;
         public VertexControl(int department, string? name, int? parentDepartment,MainWindow parentWindow)
         {
@@ -91,10 +90,12 @@ namespace Session2.View
                             Contacts = empl.PhoneWork + " " + empl.Email,
                             Cabinet = empl.Cabinet,
                             Id = empl.IdEmployee,
+                            EmpBack = (empl.IsFired != null )?Brushes.Gray: new SolidColorBrush(Color.FromRgb(120, 178, 75)),
                         }).ToList();
-
+            
             ParentWindow.EmployerList.Items.Clear();
             ParentWindow.EmployerList.ItemsSource = list;
+
         }
     }
 }

@@ -55,7 +55,7 @@
                                 <Label Content="{Binding EvName}" FontSize="18"/>
                                 <Label Content="{Binding DescriptionStudy}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelEvent"/>
+                                    <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelSkip"/>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>
@@ -87,7 +87,7 @@
                             <StackPanel Background="LightGray" Margin="5">
                                 <Label Content="{Binding DescriptionStudy}"/>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelVac"/>
+                                    <Button Width="40" Height="20" Margin="10 5" Content="{materialIcons:MaterialIconExt Kind=Delete}" ToolTip="Удалить мероприятие" Click="Button_DelSkip"/>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>

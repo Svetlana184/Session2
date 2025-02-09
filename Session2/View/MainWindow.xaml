@@ -49,7 +49,7 @@
             <ListBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="EmployerList" SelectionChanged="EmployerList_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Width="900" Background="#78B24B">
+                        <StackPanel Width="900" Background="{Binding EmpBack}">
                             <Label Content="{Binding DepAndPosition}"/>
                             <Label Content="{Binding Fio}" FontSize="20"/>
                             <Label Content="{Binding Contacts}"/>

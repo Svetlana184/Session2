@@ -532,19 +532,6 @@ namespace Session2.View
 
 
         //кнопка удаления мероприятия
-        private void Button_DelEvent(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBox.Show(
-                "Вы уверены, что хотите удалить данную запись?",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning
-                );
-            if (result == MessageBoxResult.Yes)
-            {
-               
-            }
-        }
         
         private void Button_DelSkip(object sender, RoutedEventArgs e)
         {
@@ -556,25 +543,14 @@ namespace Session2.View
                 );
             if (result == MessageBoxResult.Yes)
             {
-                var x = StudyList.SelectedItem;
-                var y = 1;
+                Button x = (Button)sender;
+                object data = x.DataContext;
+                int id = (int)data.GetType().GetProperty("Id")!.GetValue(x.DataContext, null)!;
+                db.Calendars.Where(p => p.IdCalendar == id).ExecuteDelete();
+                UpdateEvents();
                 
             }
         }
-        private void Button_DelVac(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBox.Show(
-                "Вы уверены, что хотите удалить данную запись?",
-                "Подтверждение",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning
-                );
-            if (result == MessageBoxResult.Yes)
-            {
-                
-            }
-        }
-
 
 
         private void Name_KeyDown(object sender, KeyEventArgs e)

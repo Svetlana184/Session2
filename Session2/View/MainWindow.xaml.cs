@@ -39,6 +39,7 @@ namespace Session2
             VertexControl vertexRoot = new(987, "Дороги России", 0, this);
             vertexRoot.Level = 1;
             Graph = new Graph(vertexRoot);
+
             List<Department> departmentList = db.Departments.Where(p => p.IdDepartment != 987).ToList();
             foreach (Department department in departmentList)
             {
@@ -46,47 +47,34 @@ namespace Session2
                 Graph.AddVertex(v);
             }
             Graph.DrawGraph(MainCanvas);
+
+
             if (SelectedVertex != null)
             {
-                //EmployerList.ItemsSource = null;
+                EmployerList.ItemsSource = null;
 
 
-                List<Employee> listMain = db.Employees.Where(p => p.IdDepartment == SelectedVertex.Department).ToList();
-                //1 - список первичных наследников
+                List<Department> depList = new List<Department>();
 
+                depList.Add(db.Departments.FirstOrDefault(p => p.IdDepartment == SelectedVertex.Department)!);
 
-                var depList = (from dep in db.Departments
-                               where dep.IdDepartmentParent == SelectedVertex.Department
-                               select new
-                               {
-                                   IdDep = dep.IdDepartment
-                               }).ToList();
-                for (int i = 0; i < depList.Count; i++)
+                for (int j = SelectedVertex.Level + 1; j < Graph.MaxLevel; j++)
                 {
-                    List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == depList[i].IdDep).ToList();
-                    listMain.AddRange(ListTemp);
-                }
-
-                for (int j = SelectedVertex.Level; j < Graph.MaxLevel; j++)
-                {
-                    foreach (var v in depList)
+                    List<Department> childList = new List<Department>();
+                    foreach (Department v in depList)
                     {
-                        var dopList = (from dep in db.Departments
-                                       where dep.IdDepartmentParent == v.IdDep
-                                       select new
-                                       {
-                                           IdDep = dep.IdDepartment
-                                       }).ToList();
-                        for (int i = 0; i < dopList.Count; i++)
-                        {
-                            List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == dopList[i].IdDep).ToList();
-                            listMain.AddRange(ListTemp);
-                        }
+                        childList.AddRange(db.Departments.Where(p => p.IdDepartmentParent == v.IdDepartment));
                     }
+                    depList.AddRange(childList);
 
                 }
 
+                List<Employee> listMain = new List<Employee>();
 
+                foreach (Department d in depList)
+                {
+                    listMain.AddRange(db.Employees.Where(p => p.IdDepartment == d.IdDepartment && (p.IsFired == null || ((DateTime)p.IsFired).AddDays(30) > DateTime.Now)));
+                }
                 listMain.Sort();
 
                 var list = (from empl in listMain
@@ -96,14 +84,12 @@ namespace Session2
                                 Fio = empl.Surname + " " + empl.FirstName + " " + empl.SecondName,
                                 Contacts = empl.PhoneWork + " " + empl.Email,
                                 Cabinet = empl.Cabinet,
-                                Id = empl.IdEmployee
+                                Id = empl.IdEmployee,
+                                IsFired = empl.IsFired
                             }).ToList();
 
                 
-                
-
                 EmployerList.ItemsSource = list;
-                
 
             }
         }

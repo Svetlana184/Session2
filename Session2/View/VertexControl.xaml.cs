@@ -47,7 +47,7 @@ namespace Session2.View
             db = new RoadOfRussiaContext();
         }
 
-        private void UserControl_MouseDown_1(object sender, MouseButtonEventArgs e)
+        private void UserControl_Dep(object sender, MouseButtonEventArgs e)
         {
             ParentWindow.Graph.v.Background= new SolidColorBrush(Color.FromRgb(120, 178, 75));
             foreach (var g in ParentWindow.Graph.vertices)
@@ -60,42 +60,27 @@ namespace Session2.View
             ParentWindow.EmployerList.ItemsSource=null;
 
 
-            List<Employee> listMain = db.Employees.Where(p => p.IdDepartment == Department).ToList();
-            //1 - список первичных наследников
+            List<Department> depList = new List<Department>();
 
+            depList.Add(db.Departments.FirstOrDefault(p => p.IdDepartment == Department)!);
 
-            var depList = (from dep in db.Departments
-                           where dep.IdDepartmentParent == Department
-                           select new
-                           {
-                               IdDep = dep.IdDepartment
-                           }).ToList();
-            for (int i = 0; i < depList.Count; i++)
+            for (int j = Level+1; j < ParentWindow.Graph.MaxLevel; j++)
             {
-                List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == depList[i].IdDep).ToList();
-                listMain.AddRange(ListTemp);
-            }
-
-            for (int j = Level; j < ParentWindow.Graph.MaxLevel; j++)
-            {
-                foreach (var v in depList)
+                List<Department> childList = new List<Department>();
+                foreach (Department v in depList)
                 {
-                    var dopList = (from dep in db.Departments
-                                     where dep.IdDepartmentParent == v.IdDep
-                                     select new
-                                     {
-                                         IdDep = dep.IdDepartment
-                                     }).ToList();
-                    for (int i = 0; i < dopList.Count; i++)
-                    {
-                        List<Employee> ListTemp = db.Employees.Where(p => p.IdDepartment == dopList[i].IdDep).ToList();
-                        listMain.AddRange(ListTemp);
-                    }
+                    childList.AddRange(db.Departments.Where(p => p.IdDepartmentParent == v.IdDepartment));
                 }
-                
+                depList.AddRange(childList);
+
             }
 
+            List<Employee> listMain = new List<Employee>();
 
+            foreach(Department d in depList)
+            {
+                listMain.AddRange(db.Employees.Where(p => p.IdDepartment == d.IdDepartment && (p.IsFired == null || ((DateTime)p.IsFired).AddDays(30)>DateTime.Now)));
+            }
             listMain.Sort();
 
             var list = (from empl in listMain
@@ -108,10 +93,8 @@ namespace Session2.View
                             Id = empl.IdEmployee,
                         }).ToList();
 
+            ParentWindow.EmployerList.Items.Clear();
             ParentWindow.EmployerList.ItemsSource = list;
-
-            
-            
         }
     }
 }

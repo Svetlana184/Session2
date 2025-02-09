@@ -129,7 +129,12 @@ namespace Session2.View
             set { Helper_.SelectedValue = value; }
         }
 
-
+        //поля для календаря сотрудника
+        public int IdCalendar
+        {
+            get;
+            set;
+        }
         public string TypeOfEvent
         {
             get { return TypeOfEvent_.Text;}
@@ -537,7 +542,7 @@ namespace Session2.View
                 );
             if (result == MessageBoxResult.Yes)
             {
-                
+               
             }
         }
         

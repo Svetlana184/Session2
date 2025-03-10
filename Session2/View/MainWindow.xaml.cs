@@ -2,6 +2,8 @@
 using Session2.Model;
 using Session2.View;
 using System.ComponentModel;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,7 @@ namespace Session2
     
     public partial class MainWindow : Window
     {
+        private HttpClient client;
         public Graph Graph { get; set; }
         private RoadOfRussiaContext db;
         private VertexControl SelectedVertex { get; set; }
@@ -31,8 +34,15 @@ namespace Session2
         public MainWindow()
         {
             InitializeComponent();
-            db=new RoadOfRussiaContext();
+            client = new HttpClient();
+            db =new RoadOfRussiaContext();
             FormUpdate();
+        }
+
+        private async Task<List<Department>> GetDepartments()
+        {
+            List<Department>? departments = await client.GetFromJsonAsync<List<Department>>("http://localhost:5047/Departments");
+            return departments!;
         }
         private void FormUpdate()
         {
@@ -40,7 +50,9 @@ namespace Session2
             vertexRoot.Level = 1;
             Graph = new Graph(vertexRoot);
 
-            List<Department> departmentList = db.Departments.Where(p => p.IdDepartment != 987).ToList();
+            // List<Department> departmentList = db.Departments.Where(p => p.IdDepartment != 987).ToList();
+            Task<List<Department>> task = Task.Run(()=>GetDepartments());
+            List<Department> departmentList = task.Result;
             foreach (Department department in departmentList)
             {
                 VertexControl v = new(department.IdDepartment, department.DepartmentName, department.IdDepartmentParent, this);

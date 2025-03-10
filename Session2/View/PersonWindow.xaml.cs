@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
@@ -27,6 +29,7 @@ namespace Session2.View
     /// 
     public partial class PersonWindow : Window
     {
+        private HttpClient httpclient;
         private RoadOfRussiaContext db;
         private bool IsEditEnabled = false;
         public Employee Employee { get; set; }
@@ -204,6 +207,7 @@ namespace Session2.View
  
             InitializeComponent();
             db = new RoadOfRussiaContext();
+            httpclient = new HttpClient();
             Employee = emp;
             if (vertex != null) {
                 selectedVertex = vertex;
@@ -357,7 +361,7 @@ namespace Session2.View
 
         //добавление мероприятий в календаре сотрудника
 
-        private void Button_EventSave(object sender, RoutedEventArgs e)
+        private async void Button_EventSave(object sender, RoutedEventArgs e)
         {
             Calendar_ calendar_ = new Calendar_
             {
@@ -369,12 +373,26 @@ namespace Session2.View
                 IdAlternate = IdAlternate,
                 TypeOfAbsense = Description
             };
-            db.Calendars.Add(calendar_);
-            db.SaveChanges();
-            UpdateEvents();
+            //db.Calendars.Add(calendar_);
+            //db.SaveChanges();
+            //UpdateEvents();
+            await SaveEvent(calendar_);
             ClearAddEv(); 
         }
 
+        private async Task SaveEvent(Calendar_ calendar)
+        {
+            try
+            {
+                JsonContent content = JsonContent.Create(calendar);
+                using var response = await httpclient.PostAsync("http://localhost:5047/api/v1/Events", content);
+                UpdateEvents();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        } 
         private void Button_EventNotSave(object sender, RoutedEventArgs e)
         {
             ClearAddEv();
